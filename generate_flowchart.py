@@ -193,7 +193,6 @@ for i, step in enumerate(steps):
         ax.add_patch(chevron)
 
 plt.tight_layout()
-plt.savefig('Figure_1_Methodology_Workflow.png', dpi=600, bbox_inches='tight')
 plt.savefig('Figure_1_Workflow.png', dpi=600, bbox_inches='tight')
 plt.close()
-print("Methodology flowchart regenerated with Figure 1 title and saved to Figure_1_Workflow.png and Figure_1_Methodology_Workflow.png!")
+print("Methodology flowchart regenerated and saved to Figure_1_Workflow.png!")

@@ -173,7 +173,6 @@ ax_m.grid(axis='x', linestyle='--', alpha=0.5, color='#94A3B8', zorder=0)
 
 plt.subplots_adjust(left=0.28, right=0.94, top=0.92, bottom=0.10)
 plt.savefig('Figure_4_ML_Accuracies.png', dpi=600, bbox_inches='tight')
-plt.savefig('Figure_4_Accuracies.png', dpi=600, bbox_inches='tight')
 plt.close()
 
 
