@@ -14,7 +14,7 @@ Co-Author: Dr. A.S.M. Shihavuddin (Email: `shihav@eee.green.edu.bd`, ORCID: [000
 
 ## Abstract
 
-**Background**: Academic burnout is a growing mental health concern in higher education, disproportionately affecting students in resource-constrained South Asian universities. Early-identification frameworks remain limited by single-method approaches, opaque black-box predictive models, and an absence of integrated mixed-methods investigation. **Methods**: This study employs an explanatory sequential mixed-methods design (QUAN → QUAL) on a primary cross-sectional dataset of N = 601 Bangladeshi undergraduates. Quantitative survey modeling and ML feature importance established primary risk predictors, which subsequently informed purposive sub-sampling of N = 20 students for qualitative interview elaboration. Ten supervised classifiers and a Soft Voting Ensemble were evaluated under 10-fold stratified cross-validation alongside nine domain-engineered composite features operationalizing Conservation of Resources (COR) and Job Demands-Resources (JD-R) constructs, exhibiting modest-to-moderate construct correlation (|r| = 0.015 to 0.265) without circular target proxy leakage. **Results**: Random Forest achieved top classification performance (Accuracy = 65.89%, ROC-AUC = 0.7126) — a statistically meaningful ~8.3 percentage-point improvement over the 57.57% majority baseline (McNemar p < .001), though performing within 1.5 percentage points of Logistic Regression (64.39%, McNemar p = 0.4743). Decision threshold optimization (th = 0.38) improved sensitivity to 71.76% for high-coverage voluntary screening. SHAP analysis identified academic performance index, CGPA midpoint, and screen-to-sleep ratio as dominant burnout predictors; demographic features contributed negligibly (mean |SHAP| < 0.007). Qualitative thematic analysis of 20 semi-structured interviews corroborated computational findings and highlighted institutional identity strain among National University students as a contextual dimension absent from quantitative survey items. **Conclusion**: Triangulation of ML, XAI, and qualitative findings supports a sequential burnout pathway — career anxiety → psychological distress → digital escapism → biological sleep collapse — providing a modest, non-binding screening baseline for evidence-based university decision-support system design.
+**Background**: Academic burnout has become a major mental health challenge across higher education institutions, particularly in resource-constrained South Asian universities where structural counseling infrastructure is scarce. Current early-warning systems remain constrained by isolated psychometric surveys, opaque predictive algorithms, and an absence of contextual qualitative inquiry. **Methods**: We implemented an explanatory sequential mixed-methods design (QUAN → QUAL) on a primary cross-sectional cohort of N = 601 university undergraduates in Bangladesh. Quantitative modeling established baseline risk predictors through 10 supervised classification algorithms and a Soft Voting Ensemble evaluated via 10-fold stratified cross-validation. Nine domain-engineered composite indices operationalizing Conservation of Resources (COR) and Job Demands-Resources (JD-R) frameworks were incorporated, demonstrating modest-to-moderate construct correlations (|r| = 0.015 to 0.265) without circular target leakage. The quantitative feature rankings directly guided purposive nested sub-sampling of N = 20 students for qualitative semi-structured interviews. **Results**: Random Forest yielded the leading classification performance (Accuracy = 65.89%, ROC-AUC = 0.7126), providing a statistically significant 8.3 percentage-point gain over the 57.57% majority baseline (McNemar p < .001) while remaining comparable to Logistic Regression (64.39%, McNemar p = 0.4743). Calibrating the decision threshold to th = 0.38 raised sensitivity to 71.76% (identifying 183 of 255 high-burnout students) for high-coverage voluntary screening. Global SHAP analysis identified academic performance index, CGPA midpoint, and screen-to-sleep ratio as the primary risk factors, whereas sociodemographic markers contributed negligibly (mean |SHAP| < 0.007). Reflexive thematic analysis of 20 interview transcripts corroborated these attributions and revealed an unmeasured dimension: institutional identity strain and career despair among National University students experiencing low academic workloads. **Conclusion**: Integrating supervised learning, game-theoretic explainability (SHAP), and reflexive qualitative analysis outlines an interconnected burnout sequence — career anxiety → psychological distress → digital escapism → biological sleep collapse. These findings establish a transparent, non-binding screening baseline to guide supportive campus mental health and mentoring systems.
 
 **Keywords: Academic Burnout, Explainable Artificial Intelligence (XAI), SHAP, Supervised Machine Learning, Explanatory Sequential Mixed-Methods, Student Mental Health, Educational Data Mining.**
 
@@ -24,306 +24,208 @@ Co-Author: Dr. A.S.M. Shihavuddin (Email: `shihav@eee.green.edu.bd`, ORCID: [000
 
 ### 1.1 Background of the Study
 
-Academic burnout among university students has emerged as a pervasive and increasingly consequential phenomenon in higher education worldwide [1]. Defined as a prolonged state of emotional exhaustion, cynicism toward coursework, and diminished personal efficacy resulting from chronic academic stressors [2], burnout transcends isolated episodes of fatigue; it represents a structural erosion of student engagement that carries lasting implications for mental health, retention, and post-graduation outcomes. In recent years, the convergence of intensified academic demands, financial uncertainty, digital distraction, and the lingering effects of pandemic-era disruptions has accelerated burnout prevalence across diverse institutional contexts [3, 4].
+Academic burnout among university students represents a substantial and expanding challenge across contemporary higher education [1]. Characterized by chronic emotional exhaustion, depersonalization or cynicism toward coursework, and a diminishing sense of personal accomplishment [2], burnout extends beyond typical academic fatigue. It reflects a systemic breakdown in student engagement with long-term ramifications for academic persistence, degree completion, and post-graduate health. In recent years, elevated course loads, competitive assessment schemes, employment uncertainties, and pervasive digital distractions have intensified stress levels across university campuses globally [3, 4].
 
-Global surveys paint a stark picture. The World Health Organization [10] formally recognized burnout as an occupational phenomenon in the 11th revision of the International Classification of Diseases, signaling that chronic stress left unmanaged constitutes a legitimate health concern. While originally conceptualized within workplace settings [5], burnout scholarship has increasingly pivoted toward higher education, where students function under sustained performance expectations analogous to those of professional workers [6]. Multi-country assessments report that between 30% and 50% of university students meet threshold criteria for burnout, with disproportionate rates in STEM disciplines, medical training, and institutions located in low- and middle-income countries [7–9].
+The scope of this issue is documented across international literature. The World Health Organization [10] recognized burnout as an occupational syndrome in ICD-11, acknowledging that unmanaged chronic stress produces severe health consequences. While conceptualized initially in workplace environments [5], the framework translates directly to higher education, where university students encounter cognitive workloads, deadlines, and performance evaluations analogous to professional demands [6]. Cross-national investigations estimate that 30% to 50% of undergraduates experience clinically relevant burnout, with particularly high rates reported in heavy-workload disciplines and developing economies [7–9].
 
-Within South Asia, the issue assumes particular urgency. Rapid enrollment expansion, coupled with infrastructure constraints and employment market volatility, has generated an academic environment in which students face intense competitive pressure yet receive limited institutional mental health support [10, 12]. In Bangladesh, university enrollment has quadrupled over two decades, yet counseling services and wellness infrastructure have not kept pace [12]. Recent evidence from Bangladeshi private and public universities indicates that more than 40% of undergraduates report elevated burnout symptoms, frequently co-occurring with depression, anxiety, and deteriorating academic performance [13].
+In South Asia, this challenge is exacerbated by structural constraints. University enrollment across Bangladesh has grown rapidly over the last two decades, yet institutional mental health services, student counseling centers, and faculty mentoring programs have lagged behind [10, 12]. Recent assessments indicate that more than 40% of Bangladeshi university students report substantial burnout symptoms, commonly accompanied by elevated anxiety, depressive affect, and academic underachievement [13].
 
-Despite growing awareness, early identification of at-risk students remains difficult. Traditional approaches rely on end-of-semester self-report inventories - instruments that capture burnout after its effects have already materialized rather than in time for preventive intervention [14]. Moreover, burnout is shaped by a complex web of behavioral, psychological, sociodemographic, and institutional factors that resist simple univariate screening [15]. This complexity invites computational approaches capable of modeling nonlinear, high-dimensional interactions among contributing variables.
+Despite the evident need, detecting burnout before it results in course failure or institutional dropout remains challenging. Universities traditionally rely on retrospective, end-of-term evaluations — instruments that record burnout only after emotional exhaustion and academic decline have already occurred [14]. Furthermore, burnout stems from interdependent lifestyle habits, psychological vulnerabilities, and institutional pressures that univariate cutoffs fail to capture adequately [15]. This complexity necessitates predictive methodologies capable of identifying multivariate patterns across behavioral and academic indicators.
 
-Machine learning (ML) offers a principled framework for this task. Supervised classification algorithms can learn discriminative patterns from large observational datasets, yielding predictive models that outperform logistic regression and rule-based heuristics on heterogeneous behavioral data [16, 17]. Recent applications of ML in precision psychiatry and educational mental health domains have demonstrated strong predictive performance for outcomes such as dropout risk, depression screening, and academic achievement [17–19]. However, two critical gaps limit the translational value of existing ML-based burnout studies. First, the overwhelming majority of such models are trained and tested on a single dataset using internal cross-validation alone, with no assessment of generalizability to independently collected samples from distinct populations [20]. Second, "black-box" models provide little interpretive transparency regarding why a particular student is classified as high-risk, impeding trust among educators, counselors, and policymakers who require actionable explanations [23, 25].
+Supervised machine learning (ML) provides an analytical framework for identifying risk signatures within observational student data [16, 17]. Predictive algorithms have shown promise in educational data mining and precision psychiatry, forecasting dropout risk, academic struggle, and depressive symptoms [17–19]. However, existing ML studies in student mental health face two critical shortcomings. First, most models are trained and tested on single-institution datasets using internal cross-validation alone, leaving generalizability across distinct student cohorts unverified [20]. Second, opaque "black-box" models offer little insight into why specific students are flagged as high risk, restricting their practical adoption among university counselors and administrators who require actionable explanations [23, 25].
 
-Explainable artificial intelligence (XAI) methods - centered on SHapley Additive exPlanations (SHAP) [24] and broader XAI frameworks [23] - address the interpretability deficit by quantifying each feature's marginal contribution to individual and aggregate predictions. XAI-enhanced models can offer both statistical rigor and practical transparency [22, 25, 23].
+Explainable artificial intelligence (XAI) frameworks — particularly SHapley Additive exPlanations (SHAP) grounded in cooperative game theory [24] — address this interpretability barrier by isolating each feature's contribution to overall model behavior [23]. By quantifying how academic metrics, sleep schedules, and lifestyle factors influence risk classifications, SHAP enables transparent algorithmic auditing [22, 25].
 
-Yet even the most sophisticated quantitative pipeline cannot capture the subjective texture of lived experience. Students' own accounts of how they navigate academic pressure, screen fatigue, institutional stigma, and sleep deprivation coupled with employment constraints offer contextual depth that no numeric feature vector can encode [26]. Mixed-methods research designs that integrate quantitative and qualitative strands through systematic triangulation thereby produce meta-inferences of greater validity and completeness than either strand alone [27, 37]. Despite this well-established methodological advantage, mixed-methods studies that pair ML-based prediction with qualitative inquiry remain exceedingly rare in the burnout literature - a gap the present work directly addresses.
+Nevertheless, statistical modeling alone cannot fully capture how students experience academic stress in their daily lives. Narrative accounts regarding employment struggles, sleep loss, smartphone habits, and institutional stigma provide essential context that numeric survey responses cannot fully convey [26]. Mixed-methods research designs that combine quantitative predictive models with qualitative inquiry can produce triangulated insights with greater practical relevance than either method in isolation [27, 37]. Despite this advantage, studies integrating supervised machine learning with qualitative thematic analysis remain scarce in the student burnout literature.
 
-
-### 1.2 Statement of the Problem
 
 ### 1.2 Statement of the Problem
 
-Despite a proliferation of quantitative studies examining correlates of student burnout [1, 26], four interrelated shortcomings limit current knowledge. First, most ML-based prediction efforts rely exclusively on single-source training and evaluation, offering no empirical evidence of cross-sample generalizability [28]. Second, few studies employ XAI techniques systematically enough to move beyond global feature rankings toward individualized, locally interpretable explanations [23, 25]. Third, the extant literature rarely subjects ML findings to cross-validation using primary data collected from a different population, leaving the practical applicability of reported models uncertain [29]. Fourth, and most critically, while machine learning has been increasingly applied to student mental health in South Asia [111, 123], few investigations integrate machine learning prediction, Explainable AI (XAI), and qualitative thematic analysis within a unified explanatory sequential mixed-methods framework (QUAN → QUAL) — a design that enables triangulated meta-inferences about the structural mechanisms and experiential manifestations of academic burnout [25].
+While numerous studies have investigated correlates of academic burnout [1, 26], the existing literature exhibits four notable limitations. First, most machine learning applications rely entirely on single-source datasets without assessing sub-population robustness [28]. Second, few educational models incorporate game-theoretic XAI techniques to move beyond basic feature counts toward interpretable attributions [23, 25]. Third, psychometric predictive research in developing countries remains limited, where socio-economic realities, academic structures, and counseling resources differ markedly from Western contexts [10, 29]. Fourth, and most importantly, few investigations integrate machine learning classification, SHAP interpretability, and qualitative thematic analysis within an explanatory sequential mixed-methods framework (QUAN → QUAL) [25, 111, 123].
 
-These gaps are especially consequential in developing-country contexts such as Bangladesh, where the demographic profile of university students, the structure of academic programs, and the availability of mental health resources differ markedly from those of Western institutions on which most predictive models have been developed [10]. Without contextual qualitative grounding, models risk producing misleading predictions, potentially directing scarce intervention resources toward the wrong students.
+These gaps are especially pertinent in Bangladesh. Without qualitative validation, predictive models run the risk of misinterpreting local behavioral patterns, potentially misallocating limited campus counseling resources. 
 
-The present study therefore poses the following overarching question: Can an explanatory sequential mixed-methods research design combining machine learning classification, primary survey-based evaluation, and semi-structured interview-based qualitative analysis produce a robust, interpretable, and contextually grounded predictive framework for student burnout?
+To address these challenges, this study examines the following overarching question: How can an explanatory sequential mixed-methods design — combining supervised machine learning, SHAP feature interpretability, and qualitative interview analysis — establish an accurate, interpretable, and contextually grounded predictive framework for university student burnout?
 
 
 ### 1.3 Research Questions
 
-The study is guided by four research questions that span the quantitative, qualitative, and integrative dimensions of the investigation:
+The investigation addresses four specific research questions across its quantitative, qualitative, and integrative components:
 
-RQ1. Which supervised machine learning algorithm achieves the highest predictive performance for binary student burnout classification (High vs. Low/Medium) when trained on a large-scale behavioral dataset and evaluated through 10-fold stratified cross-validation?
+RQ1. Which supervised machine learning algorithm achieves the highest predictive performance for binary student burnout classification (High vs. Low/Medium) under 10-fold stratified cross-validation on primary survey data?
 
-RQ2. What are the most influential behavioral, psychological, and sociodemographic features driving burnout predictions, as identified through global SHAP feature importance analysis, and how do these quantitative attributions align with qualitative student narratives?
+RQ2. Which behavioral, psychological, and academic features contribute most substantially to burnout predictions according to global SHAP feature importance analysis?
 
-RQ3. What recurring themes and experiential patterns characterize university students' self-reported encounters with academic burnout, and how do these qualitative findings map onto the quantitative feature importance rankings?
+RQ3. What primary themes characterize university students' lived experiences with academic burnout in semi-structured qualitative interviews, and how do these narratives align with quantitative feature rankings?
 
-RQ4. What meta-inferences emerge when findings from the ML models, and the qualitative thematic analysis are triangulated, and what are the implications for theory, policy, and early-warning system design?
+RQ4. What meta-inferences emerge from triangulating the algorithmic predictions, XAI feature attributions, and qualitative student narratives, and what practical implications follow for campus mental health support?
 
 
 ### 1.4 Research Hypotheses
 
-Drawing on the Conservation of Resources (COR) theory [31], the Job Demands-Resources (JD-R) model adapted for education [32], and prior empirical evidence [1, 4], the following hypotheses are proposed:
+Grounded in Conservation of Resources (COR) theory [31], the Job Demands-Resources (JD-R) model [32], and prior empirical literature [1, 4], we formulate four hypotheses:
 
-H1. Ensemble-based ML algorithms (e.g., XGBoost [96], LightGBM [113], CatBoost [97]) will achieve significantly higher F1-scores and ROC-AUC values for binary burnout prediction than single-learner models (e.g., Logistic Regression, Decision Tree, SVM).
+H1. Ensemble-based classifiers (e.g., Random Forest, XGBoost [96], LightGBM [113], CatBoost [97]) will achieve higher F1-scores and ROC-AUC metrics than single-learner models (e.g., Logistic Regression, Decision Tree).
 
-H2. Academic performance and psychological demand features (academic performance index, CGPA midpoint, screen-to-sleep ratio, burnout vulnerability index) will rank among the top most important predictors across SHAP feature importance analysis.
+H2. Academic performance indicators and psychological demands (academic performance index, CGPA midpoint, screen-to-sleep ratio, burnout vulnerability index) will rank among the top predictors in SHAP feature importance.
 
-H3. Resource-related features (sleep quality score, physical activity hours, and wellbeing buffer index) will demonstrate significant negative associations with burnout severity, consistent with the resource-depletion hypothesis of COR theory.
+H3. Resource-related indicators (sleep quality, physical activity, wellbeing buffer) will exhibit negative associations with burnout severity, consistent with the resource-preservation principles of COR theory.
 
-H4. Qualitative themes extracted from semi-structured interviews will corroborate the quantitative feature importance hierarchy, with participants' narratives emphasizing academic workload pressure, screen fatigue, institutional stigma, and sleep deprivation coupled with employment constraints as primary burnout contributors - thereby confirming convergent validity through explanatory triangulation.
+H4. Qualitative themes extracted from student interviews will corroborate the quantitative feature importance hierarchy, identifying academic workload, digital fatigue, sleep deprivation, and employment demands as central contributors to burnout.
 
 
 ### 1.5 Conceptual Framework
 
-The conceptual framework guiding this study integrates two primary analytical strands — (1) quantitative ML-based prediction with XAI, and (2) qualitative thematic inquiry — within an explanatory sequential mixed-methods design (QUAN → QUAL). The framework posits that student burnout is the joint product of (a) academic demands (study hours, academic pressure, workload), (b) psychological vulnerability (stress, anxiety, depression), (c) lifestyle and behavioral factors (sleep duration, sleep quality, physical activity, screen time/social media usage), (d) sociodemographic characteristics (age, gender, academic year, program of study), and (e) structural resources (sleep recovery, physical activity, motivation score, CGPA, and attendance).
+This study adopts an explanatory sequential mixed-methods architecture (QUAN → QUAL) integrating two primary analytical phases: (1) quantitative supervised machine learning with SHAP explainability, and (2) qualitative reflexive thematic analysis. The conceptual framework conceptualizes burnout as an emergent outcome of five interacting factor clusters:
+- **Academic Demands:** Study hours, perceived academic pressure, and workload score.
+- **Psychological Vulnerability:** Self-reported stress and depression levels.
+- **Lifestyle and Behavioral Habits:** Sleep duration, sleep quality, physical activity, and social media consumption.
+- **Sociodemographic Characteristics:** Age, gender, academic year, and degree level.
+- **Structural Resources & Performance:** Biological sleep recovery, physical exercise, motivation score, CGPA, and attendance.
 
-In the first quantitative phase (QUAN), these five factor clusters constitute the input feature space for ML model training and evaluation using 10-Fold cross-validation on the primary survey dataset (N = 601), yielding algorithmic classifications and SHAP feature importance rankings. In the subsequent qualitative phase (QUAL), a purposively selected sub-sample of N = 20 students across burnout tiers participated in semi-structured interviews to explain, contextualize, and elaborate upon the quantitative feature hierarchy. The integration of both strands through an explanatory triangulation protocol produces convergent, divergent, and complementary meta-inferences that inform both theoretical understanding and practical decision-support system design.
-
-Conceptual Framework Structure:
-
-
-**1. Input Variables (Five Clusters):**
-
-Academic Demands: Study hours, Academic pressure, Workload
-
-Psychological Vulnerability: Stress, Anxiety, Depression
-
-Lifestyle & Behavioral: Sleep duration, Sleep quality, Physical activity, Screen time
-
-Sociodemographic: Age, Gender, Year, Course
-
-Structural Resources: Biological sleep recovery, Physical activity, Motivation score, Academic performance (CGPA & Attendance)
-
-
-**2. Analytical Strands:**
-
-Strand 1 (Quantitative): ML Models + XAI (10-Fold CV on N=601)
-
-Strand 2 (Qualitative): Semi-structured Interviews (N=20)
-
-
-**3. Integration:**
-
-Triangulation & Meta-Inference
+In the initial quantitative phase (QUAN), these variables are evaluated across 10 supervised classifiers and a Soft Voting Ensemble using 10-fold stratified cross-validation on N = 601 survey records, followed by SHAP feature attribution. In the subsequent qualitative phase (QUAL), a purposively selected sub-sample of N = 20 students across low, medium, and high burnout tiers participates in semi-structured interviews. Triangulating both strands generates integrated meta-inferences regarding the structural mechanisms of student burnout.
 
 
 ### 1.6 Theoretical Framework
 
-The theoretical scaffolding of this study rests on three complementary theories whose intersections inform both the feature selection rationale and the interpretation of ML outputs.
-
+The investigation draws on three complementary theoretical frameworks to structure feature selection and ground empirical interpretations.
 
 #### 1.6.1 Conservation of Resources (COR) Theory
-
-Hobfoll's COR theory [31, 33] posits that psychological distress - and, by extension, burnout - arises when individuals perceive a net loss of valued resources or when sustained investment of resources fails to yield adequate returns. In the academic context, resources include adequate sleep, physical health, intrinsic motivation, and academic engagement, while demands encompass coursework intensity, evaluation pressure, and competing role obligations. COR theory predicts that students with depleted resources and high demands will occupy the "resource loss spiral" characteristic of advanced burnout [31, 33]. This prediction directly informs Hypothesis H3 and guides the interpretation of SHAP values associated with resource-related features such as social support, sleep quality, and physical activity.
-
+Hobfoll's COR theory [31, 33] posits that psychological distress emerges when individuals experience resource loss, the threat of resource loss, or inadequate returns following substantial resource investment. In higher education, critical resources include restorative sleep, physical stamina, academic motivation, and peer support, while demands encompass heavy coursework, high-stakes grading, and financial obligations. COR theory predicts that sustained resource depletion without replenishment precipitates a downward spiral toward burnout [31, 33], informing our analysis of recovery metrics such as sleep quality and physical activity.
 
 #### 1.6.2 Job Demands-Resources (JD-R) Model
-
-Originally developed for occupational burnout [34], the JD-R model has been productively adapted to educational settings under the label of "Study Demands-Resources" [32]. The model distinguishes between demands that trigger a health-impairment pathway (leading to exhaustion and cynicism) and resources that activate a motivational pathway (fostering engagement). In this study, features such as academic pressure score, stress level, and screen time hours operationalize demands, while sleep quality score, physical activity hours, motivation score, and the composite wellbeing buffer index operationalize resources. The JD-R framework predicts interaction effects - resources buffer the impact of demands - that may manifest as nonlinear feature interactions detectable by tree-based ML models but invisible to standard linear regressions [34, 35]. This prediction informs the design of SHAP feature importance analyses.
-
+Adapted from organizational psychology to educational contexts [32, 34], the JD-R framework distinguishes between *demands* (factors requiring sustained cognitive or emotional effort, such as academic pressure and screen time) and *resources* (protective factors fostering engagement, such as sleep quality and intrinsic motivation). The model highlights interaction effects: sufficient resources can buffer the deleterious impact of high demands [34, 35]. In our pipeline, non-linear tree-based models and SHAP dependence plots evaluate these interaction dynamics.
 
 #### 1.6.3 Self-Determination Theory (SDT)
+Deci and Ryan's SDT [36, 109] posits that intrinsic motivation depends on the fulfillment of three basic psychological needs: autonomy, competence, and relatedness. When these needs are compromised — such as when students feel constrained by rigid curricula, experience self-doubt over low grades, or lack supportive institutional networks — amotivation and exhaustion often ensue [36]. SDT provides a lens for interpreting qualitative narratives regarding career despair and institutional disengagement.
 
-Deci and Ryan's [109, 36] SDT provides a motivational lens through which qualitative findings are interpreted. SDT holds that fulfillment of three basic psychological needs - autonomy, competence, and relatedness - sustains intrinsic motivation and buffers against burnout, whereas frustration of these needs engenders amotivation and exhaustion [36]. Interview data are expected to reveal instances of need frustration (e.g., feeling trapped in unwanted study programs, lacking peer support, perceiving assignments as meaningless) as recurring contributors to burnout. This theoretical prediction directly informs Hypothesis H4 and guides the axial coding categories employed in the qualitative analysis.
-
-Integrative Proposition. The three theories converge on a central proposition: student burnout is not merely an outcome of any single factor but an emergent consequence of imbalanced demand-resource dynamics (JD-R), cumulative resource depletion (COR), and frustrated psychological needs (SDT). ML models serve as the empirical engine for detecting the multivariate patterns implied by these theories, XAI methods render those patterns interpretable in theoretical terms, and qualitative analysis adds the experiential depth that numbers alone cannot convey.
+*Theoretical Synthesis:* These frameworks converge on a shared premise: student burnout is not driven by any single isolated factor, but arises from imbalances between demands and resources (JD-R), cumulative depletion of restorative reserves (COR), and unmet psychological needs (SDT). Computational modeling captures the multivariate empirical patterns across these domains, XAI identifies their relative influence, and qualitative narratives provide the contextual grounding.
 
 
 ### 1.7 Research Objectives
 
-The objectives of this study are as follows:
+This investigation pursues four central objectives:
 
-
-1. To train and comparatively evaluate ten supervised ML classifiers - Logistic Regression, Decision Tree, Random Forest, Extra Trees, Gradient Boosting, XGBoost [96], LightGBM [113], CatBoost [97], Support Vector Machine, and Multilayer Perceptron - along with a Soft Voting Ensemble for binary burnout prediction on a primary survey dataset (N = 601) using 10-fold stratified cross-validation.
-
-
-2. To apply SHAP (SHapley Additive exPlanations) for global feature importance interpretability of the best-performing model.
-
-
-3. To conduct systematic qualitative thematic analysis of semi-structured interview data from 20 university students, employing open, axial, and selective coding procedures.
-
-
-4. To integrate quantitative and qualitative findings through a triangulation protocol that identifies areas of agreement, disagreement, and complementarity, yielding actionable meta-inferences for educational policy and early-warning system design.
+1. Train and evaluate ten supervised classification algorithms alongside a Soft Voting Ensemble for binary burnout prediction on a primary survey dataset (N = 601) under 10-fold stratified cross-validation.
+2. Apply SHAP (SHapley Additive exPlanations) to interpret the decision mechanics and global feature importance hierarchy of the best-performing model.
+3. Conduct reflexive thematic analysis on semi-structured interviews with 20 university students to characterize lived experiences with academic exhaustion.
+4. Triangulate quantitative and qualitative findings using a structured convergence protocol to generate actionable meta-inferences for campus mental health systems.
 
 
 ### 1.8 Significance of the Study
 
-This research contributes to the literature in several important ways. Methodologically, it is among the first studies to combine machine learning classification, multi-level XAI analysis, and qualitative triangulation within a single mixed-methods investigation of student burnout. This design overcomes the well-documented limitations of single-source ML studies [20] and the interpretability deficit of black-box models [21], while grounding computational findings in lived student experience.
-
-Theoretically, the study tests predictions derived from three established frameworks - COR, JD-R, and SDT - against both statistical evidence and narrative evidence, offering a rare opportunity to evaluate theoretical alignment across methodological traditions. Practically, the identification of the most influential and generalizable predictors of burnout provides evidence-based guidance for universities seeking to design early-warning dashboards, allocate counseling resources, and structure preventive programming. The cross-validation on a Bangladeshi sample additionally informs the growing discourse on the portability of predictive models across cultural and institutional boundaries - a topic of direct relevance to international higher education policy [28].
+This work contributes to educational data mining and student mental health research in three key respects. Methodologically, it demonstrates an end-to-end integration of supervised learning, XAI interpretability, and qualitative thematic analysis within an explanatory sequential mixed-methods framework, addressing the interpretability and contextual gaps of conventional ML studies [20, 21]. Theoretically, it evaluates propositions from COR, JD-R, and SDT models against both statistical attributions and lived student narratives. Practically, identifying primary risk factors and calibrating screening thresholds provides evidence-based insight for university administrators designing early-warning dashboards and allocating student support resources in South Asian higher education [28].
 
 
 ### 1.9 Scope and Delimitations
 
-The quantitative analysis relies on a primary survey dataset of 601 university students in Bangladesh collected via Google Forms, predominantly from private universities and the National University system. The qualitative strand involves 20 participants from multiple Bangladeshi universities, sampled purposively to capture variation in burnout level, academic year, gender, and institution type. Findings should therefore be generalized cautiously beyond the Bangladeshi higher education context, though the methodological framework is designed for transferability.
+The quantitative survey comprises N = 601 undergraduate and postgraduate students from multiple Bangladeshi universities, collected via Google Forms. The qualitative strand includes N = 20 students purposively sampled across burnout tiers, institution types, and academic years. While the findings provide specific insights into the Bangladeshi higher education context, the integrated methodological framework is designed for broader adaptability across international higher education settings.
 
 
 ### 1.10 Definition of Key Terms
 
-Academic Burnout: A state of chronic exhaustion, disengagement, and reduced efficacy arising from sustained academic demands [6].
-
-Explainable AI (XAI): A suite of techniques - including SHAP, permutation importance, and partial dependence plots - that render ML model predictions interpretable to human stakeholders [24].
-
-Mixed-Methods Research: A research approach that collects, analyzes, and integrates both quantitative and qualitative data within a single study or series of studies to address research questions more comprehensively [26].
-
-Triangulation: A systematic process of comparing findings from multiple data sources, methods, or analytical frameworks to assess convergence, divergence, and complementarity [26, 36].
-
-SHAP (SHapley Additive exPlanations): A game-theoretic approach to explain the output of any ML model by computing the contribution of each feature to a given prediction [23].
-
-Conservation of Resources (COR) Theory: A stress theory positing that individuals strive to protect valued resources and experience distress when those resources are threatened or lost [31].
-
-Job Demands-Resources (JD-R) Model: A theoretical framework distinguishing between job (or study) demands that deplete energy and resources that foster engagement [33].
+- **Academic Burnout:** A state of emotional exhaustion, cynicism toward academic commitments, and diminished efficacy resulting from chronic educational demands [6].
+- **Explainable AI (XAI):** Analytical methods, including SHAP and feature attribution techniques, that explain the predictive logic of complex machine learning models [24].
+- **Explanatory Sequential Mixed-Methods:** A research design where quantitative data collection and analysis (QUAN) precede and inform qualitative investigation (QUAL) to explain empirical findings [26].
+- **SHAP (SHapley Additive exPlanations):** A game-theoretic method that calculates the marginal contribution of each feature to individual and global model predictions [23].
+- **Triangulation:** The systematic integration of quantitative statistical patterns and qualitative narratives to assess convergence, complementarity, and divergence [26, 37].
 
 
 ### 1.11 Organization of the Paper
 
-The remainder of this paper is organized as follows. Section 2 presents the literature review, critically synthesizing prior work on student burnout, ML applications in education, XAI methods, and mixed-methods designs. Section 3 details the complete materials and methods, including research design, data collection, preprocessing, feature engineering, ML model training and evaluation, XAI procedures, qualitative analysis procedures, and the triangulation framework. Section 4 reports exploratory data analysis. Section 5 presents inferential statistical analysis. Section 6 reports ML model performance benchmarks and confusion matrix analysis. Section 7 presents the Explainable AI (SHAP) findings. Section 8 covers qualitative thematic analysis of the lived experience of burnout. Section 9 covers mixed-methods integration, triangulated meta-inferences, and extended discussion. Section 10 presents conclusions, limitations, and policy recommendations. References and supplementary materials follow.
+The remainder of this paper is structured as follows. Section 2 reviews relevant literature on student burnout, machine learning in education, and explainability methods. Section 3 outlines the materials and methods, including data collection, preprocessing, feature engineering, model training, XAI procedures, qualitative coding, and ethical safeguards. Section 4 presents exploratory data analysis. Section 5 details inferential statistical testing and multicollinearity assessments. Section 6 reports cross-validated machine learning benchmarks, confusion matrix error analyses, and decision threshold calibration. Section 7 presents SHAP explainability findings. Section 8 details qualitative thematic findings. Section 9 provides mixed-methods triangulation and discussion. Section 10 concludes with policy recommendations and study limitations.
+
 
 
 ## 2. Literature Review
 
-This section critically synthesizes the existing body of scholarship on student burnout, its predictors, computational approaches to burnout prediction, and the methodological innovations that inform the present study. The review is organized thematically rather than chronologically, moving from the conceptualization of academic burnout through its empirical correlates, machine learning applications, explainability methods, validation frameworks, and mixed-methods designs. Each subsection identifies both the contributions and the unresolved limitations of prior work, culminating in a synthesis of research gaps that motivates the present investigation.
+This section synthesizes empirical scholarship on student burnout, behavioral and psychological risk factors, machine learning applications in educational data mining, explainable AI, and mixed-methods research designs. The review identifies core contributions and methodological limitations across prior studies, establishing the empirical rationale for the present investigation.
 
 
-### 2.1 Conceptualization and Dimensions of Academic Burnout
+### 2.1 Conceptualization and Measurement of Academic Burnout
 
-The construct of burnout originated in the occupational health literature through Freudenberger [38] clinical observations and was subsequently operationalized by Maslach and Jackson [39] as a three-dimensional syndrome comprising emotional exhaustion, depersonalization, and reduced personal accomplishment. The Maslach Burnout Inventory (MBI) and its variants have since become the most widely adopted measurement instruments, accumulating over four decades of psychometric evidence across professional populations [5, 37].
+The construct of burnout originated in occupational health through Freudenberger's [38] early clinical observations and was formally operationalized by Maslach and Jackson [39] as a three-dimensional syndrome comprising emotional exhaustion, depersonalization (cynicism), and reduced personal accomplishment. The Maslach Burnout Inventory (MBI) remains the most widely utilized instrument across workplace and organizational studies [5, 37].
 
-The extension of burnout research to educational settings followed Schaufeli et al. [6] development of the Maslach Burnout Inventory-Student Survey (MBI-SS), which re-conceptualized the three core dimensions in academic terms: exhaustion (feeling drained by study demands), cynicism (an indifferent or detached attitude toward one's coursework), and reduced academic efficacy (a declining sense of competence as a learner). This adaptation was grounded in the recognition that students, like workers, operate under sustained performance demands within institutional structures that exert evaluative pressure [6, 14, 38]. Subsequent validation studies have confirmed the factorial structure of the MBI-SS across diverse cultural contexts, including European [3, 39], North American [39, 40], and East Asian [41] samples.
+Recognizing that university students operate under sustained evaluative pressure, competitive deadlines, and heavy cognitive demands, Schaufeli et al. [6] adapted the framework to higher education through the Maslach Burnout Inventory-Student Survey (MBI-SS). The MBI-SS reformulates the core dimensions for academic environments: *exhaustion* (feeling depleted by study demands), *cynicism* (detachment and disillusionment with coursework), and *reduced efficacy* (declining belief in one's competence as a learner) [6, 14]. Subsequent psychometric studies have validated this three-factor structure across European [3, 39], North American [39, 40], and Asian [41] cohorts.
 
-More recent conceptualizations have expanded beyond the MBI-SS to incorporate behavioral and physiological markers. Madigan and Curran [1] argued in their large-scale meta-analysis that burnout should be understood not merely as an affective state but as a dynamic process embedded in students' daily routines - sleep patterns, digital habits, physical activity, and social interactions [42–44]. This process-oriented view aligns with the present study's operationalization of burnout through behavioral features rather than exclusively through psychometric scale scores. Similarly, Walburg [45] and Salmela-Aro and Upadyaya [32] emphasized that burnout manifests along a continuum from mild disengagement to severe functional impairment, supporting a multi-tiered severity classification (Low, Medium, High) as a more ecologically valid approach for conceptual measurement [45, 46], though ML modeling in this study utilizes binary dichotomization (High vs. Low/Medium) for robust prediction.
+Contemporary scholarship increasingly views burnout as an ongoing behavioral and physiological process embedded in students' daily routines — including sleep quality, physical activity, digital habits, and social interactions [1, 42–44]. Rather than treating burnout solely as an end-state psychological score, behavioral features provide early objective indicators of risk. Furthermore, researchers have noted that burnout develops along a progressive continuum [32, 45], justifying multi-tiered risk stratification (Low, Medium, High) for clinical and preventive screening [45, 46].
 
 
-### 2.2 Prevalence and Consequences of Student Burnout
+### 2.2 Prevalence and Consequences in Higher Education
 
-Epidemiological evidence paints a concerning portrait. Frajerman et al. [7] systematic review of 24 studies across 15 countries estimated that the pooled prevalence of clinically significant burnout among university students ranged from 28% to 55%, with medical and engineering students exhibiting the highest rates [47, 48]. Erschens et al. [8] reported similar figures in a meta-analysis restricted to medical education, finding that approximately 44% of medical students globally met criteria for emotional exhaustion [49]. More recent evidence suggests that these rates may have escalated since 2020. Almutairi et al. [9] found that burnout prevalence among Saudi Arabian university students reached 61% in post-pandemic cohorts, up from approximately 38% in pre-pandemic samples [50]. Comparable post-pandemic elevations have been documented in Turkey [51], India [19], Brazil [52, 53, 57], and Bangladesh [112].
+Global epidemiological surveys document widespread burnout across university campuses. Frajerman et al. [7] conducted a systematic review across 15 countries, estimating that 28% to 55% of university students exhibit significant burnout symptoms, with elevated rates in competitive STEM and medical programs [47, 48]. Meta-analytic evidence from Erschens et al. [8] indicated that approximately 44% of medical students globally meet criteria for emotional exhaustion. In post-pandemic assessments, elevated burnout rates have been documented internationally, including in Saudi Arabia (61%) [9], Turkey [51], India [19], Brazil [52, 53, 57], and Bangladesh [112].
 
-In South Asia specifically, Hossain and Rahman [13] reported that 47% of Bangladeshi undergraduates surveyed across six universities in Dhaka exhibited moderate to severe burnout, with particularly elevated rates among students in private universities where sleep deprivation and employment constraints compound academic pressure [54]. Systematic reviews by Ali et al. [107] and Hossen et al. [111] corroborated these findings, noting widespread psychological distress, anxiety (r = .54), and depression (r = .61) among Bangladeshi undergraduates [55]. Faisal et al. [14] extended these observations across public and private institutions, where limited mental health infrastructure and academic pressure were identified as structural contributors to burnout.
+In South Asia, university students encounter distinct structural challenges. Hossain and Rahman [13] observed that 47% of undergraduates surveyed across six universities in Dhaka reported moderate-to-severe burnout, with high rates in private institutions where academic fees and employment pressures compound coursework demands [54]. Multi-institutional reviews by Ali et al. [107] and Hossen et al. [111] documented widespread anxiety and depressive affect among Bangladeshi students, pointing to limited campus mental health infrastructure as a systemic vulnerability [14, 55].
 
-The consequences of untreated burnout are far-reaching. Longitudinal evidence demonstrates that burnout predicts academic underperformance [31], increased dropout intention [56], substance use [48], suicidal ideation [49], and diminished post-graduation career satisfaction [50]. In developing-country contexts, where repeat enrollment or career redirection is constrained by economic realities, the costs of burnout-related attrition extend to families and communities [11].
+The consequences of unaddressed academic burnout are well-documented. Longitudinal studies demonstrate that chronic burnout predicts academic underachievement [31], increased dropout intentions [56, 60], substance misuse [48, 52], depressive episodes, and suicidal ideation [49, 53]. In developing-country contexts, where tuition costs represent a substantial family investment, academic attrition carries significant socio-economic consequences for students and their communities [11].
 
 
 ### 2.3 Predictors and Correlates of Student Burnout
 
-A substantial body of research has examined factors associated with burnout across multiple levels of analysis. For organizational clarity, these are grouped into four categories that correspond to the factor clusters in the present study's conceptual framework.
-
+Prior literature identifies contributing factors across four broad analytical domains:
 
 #### 2.3.1 Academic Demands
-
-Academic workload, assessment frequency, and perceived course difficulty are consistently among the strongest correlates of burnout [1]. Salmela-Aro and Upadyaya [32] demonstrated in a four-wave longitudinal study that escalating study demands during the transition from first to second year predicted burnout trajectories even after controlling for baseline mental health. Robotham and Julian [61] found that the subjective perception of workload manageability was a stronger predictor than objective hours invested, suggesting that cognitive appraisal mediates the demand-burnout pathway. More recently, Vizoso et al. [4] reported that academic pressure explained 28% of the variance in emotional exhaustion in a Spanish university sample, highlighting the prominent role of academic stressors in student burnout.
-
+Coursework volume, frequent examinations, and strict grading curves are consistently linked to academic strain [1]. Salmela-Aro and Upadyaya [32] demonstrated longitudinally that increasing study demands predict burnout trajectories even after controlling for baseline psychological health. Notably, Robotham and Julian [61] observed that subjective appraisal of workload manageability is often a stronger predictor than raw hours invested, suggesting that cognitive appraisal mediates the relationship between demands and exhaustion [4].
 
 #### 2.3.2 Psychological Factors
-
-Stress, anxiety, and depression form a cluster of highly intercorrelated predictors that frequently co-occur with burnout [42, 43]. The meta-analytic work of Bianchi et al. [49] demonstrated a substantial overlap between burnout and depression (pooled r = .52), reigniting debate about whether burnout constitutes a distinct syndrome or a context-specific variant of depressive disorder. Regardless of nosological boundaries, studies consistently report that elevated anxiety scores [44], trait neuroticism [46], and perceived helplessness [47] amplify burnout risk. Financial stress has received growing attention as a psychosocial stressor that intersects with academic demands; Richardson et al. [58] found that students experiencing financial hardship were 1.8 times more likely to report high burnout, and Walsemann et al. [59] documented a dose-response relationship between cumulative student debt and burnout symptoms.
-
+Stress, anxiety, and depression frequently co-occur with academic burnout [42, 43]. Meta-analytic findings by Bianchi et al. [49] revealed substantial overlap between burnout and depressive symptoms (pooled r = .52). Elevated trait anxiety [44], neuroticism [46, 50], and feelings of academic helplessness [47] systematically amplify vulnerability. Financial hardship has also emerged as a significant stressor; Richardson et al. [58] found financially strained students were 1.8 times more likely to report severe burnout, while Walsemann et al. [59] identified cumulative educational debt as a direct contributor to psychological strain.
 
 #### 2.3.3 Lifestyle and Behavioral Factors
+Sleep patterns represent one of the most critical behavioral determinants of student wellbeing. Insufficient sleep duration (< 6 hours per night) and poor sleep quality are associated with substantial increases in burnout risk [63, 64, 78], with sleep architecture disruptions strongly impairing daytime cognitive functioning and emotional regulation [65, 66]. Conversely, regular physical exercise serves as a protective buffer, reducing burnout symptoms by approximately 0.4 standard deviations in meta-analytic assessments [62].
 
-Sleep has emerged as one of the most consistent behavioral predictors of burnout. Hershner and Chervin [63, 78] reported that insufficient sleep duration (< 6 hours per night) was associated with a two-fold increase in burnout risk among college students, and subsequent research has confirmed that sleep quality and circadian disruptions may be even stronger predictors than duration alone [64, 65, 66]. Physical activity serves as a protective factor; Naczenski et al. [62] found in a meta-analysis of 26 studies that regular moderate exercise reduced burnout symptoms by approximately 0.4 standard deviations. Conversely, excessive screen time - particularly recreational social media use - has been linked to heightened burnout through both displacement of study time and adverse effects on sleep architecture and psychological distress [60–63]. Fang et al. [110] and Ng et al. [115] reported that students spending more than four hours daily on social media exhibited significantly elevated exhaustion and cynicism scores compared to those with lower usage, a finding with direct relevance to the South Asian context where smartphone penetration among university students exceeds 95% [12].
-
+In contrast, excessive recreational screen time — particularly unstructured social media scrolling — has been linked to heightened burnout by displacing study time and disturbing sleep quality [60, 67–70]. Fang et al. [110] and Ng et al. [115] reported that students spending more than four hours daily on social media exhibited significantly higher exhaustion and cynicism, a finding especially relevant to South Asia where smartphone usage among university students is near-ubiquitous [12].
 
 #### 2.3.4 Sociodemographic and Structural Factors
-
-Gender differences in burnout have been documented but remain inconsistent in direction. Purvanova and Muros [116] found in a meta-analysis that female students reported higher emotional exhaustion, whereas male students exhibited higher cynicism. Academic year effects are similarly variable, with some studies identifying a peak in burnout during the second or third year [3] and others finding elevated rates during the final year or during clinical placements in health professions [8]. Institutional factors - class size, faculty accessibility, counseling availability, and internet infrastructure - have received less quantitative attention but are highlighted in qualitative research as important contextual moderators [10]. Social support from peers, family, and faculty consistently buffers burnout; a meta-analysis by Kim et al. [71] reported a mean effect size of r = .35, indicating a moderate protective association. Attendance regularity and GPA, while sometimes treated as outcomes of burnout, also function as proximal indicators of engagement and have been included as predictive features in several recent ML studies [18, 19].
-
-
-### 2.4 Machine Learning Applications in Educational and Mental Health Prediction
-
-The application of ML to student outcome prediction has expanded substantially over the past five years, driven by the availability of large educational datasets, advances in ensemble methods, and institutional demand for data-informed decision-making [64–66].
+Sociodemographic correlates show mixed patterns across the literature. Meta-analyses by Purvanova and Muros [116] found female students report slightly higher emotional exhaustion, while male students report higher cynicism. Academic year effects vary across curricula, with peaks occurring during transition periods such as the second year or during clinical rotations [3, 8]. Meanwhile, institutional factors — such as faculty accessibility, class sizes, and mental health resources — act as key contextual moderators [10]. Strong social and family support consistently buffers against burnout [71], while attendance regularity and GPA reflect proximal engagement levels [18, 19].
 
 
-#### 2.4.1 Supervised Classification for Student Outcomes
+### 2.4 Machine Learning Applications in Educational Mental Health
 
-Iatrellis et al. [19] compared logistic regression, random forest, and gradient boosting classifiers for predicting student dropout in Greek universities, finding that gradient boosting achieved the highest AUC (0.89) on a dataset of 15,000 records. Shahiri et al. [75] reviewed 30 studies employing ML for academic performance prediction and concluded that decision tree and neural network models were most commonly used, though ensemble methods consistently outperformed single learners. More recent work by Alhazmi and Sheneamer [76] applied gradient boosting and XGBoost [96] architectures in higher education settings, achieving high predictive accuracy for identifying students at risk of academic failure.
+The application of supervised machine learning in educational data mining has expanded rapidly, supported by larger institutional datasets and advances in ensemble methods [72, 73].
+
+#### 2.4.1 Supervised Classification for Academic Outcomes
+Iatrellis et al. [19] compared logistic regression, random forests, and gradient boosting for predicting student dropout in higher education, reporting that gradient boosting achieved an AUC of 0.89 on a cohort of 15,000 students. Shahiri et al. [75] reviewed 30 predictive modeling studies, concluding that ensemble algorithms systematically outperformed individual single-tree classifiers. Recent implementations by Alhazmi and Sheneamer [76] confirmed the effectiveness of gradient-boosted trees for early identification of at-risk students.
+
+#### 2.4.2 ML for Mental Health and Burnout Screening
+Direct applications of machine learning to student burnout classification remain an active area of development. Prior studies have applied Support Vector Machines, Random Forests, and Gradient Boosting to survey data, demonstrating the feasibility of predicting burnout categories from behavioral inputs [67, 68]. Integrating lifestyle features (e.g., sleep duration, exercise, and digital habits) alongside psychometric scores has consistently improved predictive accuracy [77, 79].
+
+#### 2.4.3 Limitations of Existing ML Approaches
+Three major limitations restrict the translational impact of current educational ML models:
+1. *Single-source cross-validation:* Most models are evaluated solely on internal cross-validation without assessing sub-population generalizability [20].
+2. *Small-sample constraints:* Many studies utilize small convenience cohorts without accounting for the sample-size requirements of complex boosting architectures [80].
+3. *Single-metric evaluation:* Models often report raw accuracy alone, omitting class-specific recall, precision-recall trade-offs, and decision-threshold calibrations essential for institutional deployment [81].
 
 
-#### 2.4.2 ML for Mental Health and Burnout Prediction
+### 2.5 Explainable AI (XAI) in Predictive Modeling
 
-Direct ML applications to burnout prediction are fewer but growing. Prior studies have trained random forest and support vector machine classifiers on student cohorts, demonstrating the feasibility of predicting binary burnout categories from behavioral and psychological inputs. Other researchers have extended student burnout prediction to multiclass settings, comparing various machine learning algorithms and reporting that gradient boosting models achieved high predictive performance on larger datasets [67, 68]. Other machine learning studies have successfully incorporated behavioral features (such as sleep, exercise, and social media) alongside psychometric scores, demonstrating that behavioral patterns contribute substantial predictive power in identifying student stress and burnout. In the broader mental health domain, Priya et al. [77] used random forest to predict depression from social media and self-report data (AUC = 0.87), demonstrating the utility of machine learning algorithms for anxiety and stress screening on self-report datasets [79].
-
-
-#### 2.4.3 Limitations of Existing ML Studies
-
-Three persistent limitations constrain the translational value of existing ML-based burnout prediction. First, most studies rely on single-source datasets with internal cross-validation alone, providing no evidence that models generalize beyond the training population [20]. Second, sample sizes frequently fall below 10,000, limiting the capacity of complex models to learn stable feature interactions [80]. Third, many studies report accuracy as the sole evaluation metric, neglecting calibration, class-specific performance, and decision-theoretically relevant measures such as precision-recall curves [69, 81]. The present study addresses all three limitations through its use of a primary survey training set, comprehensive multi-metric evaluation.
-
-
-### 2.5 Explainable AI in Predictive Modeling
-
-The tension between predictive accuracy and interpretability - sometimes termed the "accuracy-interpretability trade-off" - has motivated a rapidly growing literature on XAI methods [23, 24, 25].
-
+The need to understand algorithmic decisions in high-stakes educational and psychological settings has accelerated adoption of Explainable AI (XAI) techniques [23, 25].
 
 #### 2.5.1 SHAP (SHapley Additive exPlanations)
+Lundberg and Lee [24, 83] introduced SHAP as a game-theoretic framework calculating the exact marginal contribution of each input feature to individual and global predictions. SHAP values satisfy three foundational axiomatic properties — local accuracy, missingness, and consistency — that standard heuristic feature rankings lack [24]. In educational contexts, SHAP has been utilized to deconstruct academic performance and stress predictors, offering clear diagnostic attribution for institutional early-warning systems [82].
 
-Lundberg and Lee [24] proposed SHAP as a unified framework for feature attribution grounded in cooperative game theory. SHAP values satisfy three desirable axiomatic properties - local accuracy, missingness, and consistency - that other feature importance methods (e.g., information gain, Gini impurity) do not guarantee [70]. In educational applications, Tsiakmaki et al. [82] used SHAP to explain random forest predictions of student performance and found that study hours and prior GPA were the most influential features globally, while individual SHAP plots revealed substantial heterogeneity across student subgroups. Previous work utilizing SHAP on student classifiers has identified emotional regulation and sleep quality as influential contributors, providing interpretable insights for interventions.
-
-
-#### 2.5.2 Permutation Importance and Feature Importance
-
-Permutation importance [88] estimates a feature's contribution by measuring the degradation in model performance when the feature's values are randomly shuffled, though unrestricted permutation can force extrapolation beyond the data distribution [88]. Unlike impurity-based importance, permutation importance is model-agnostic and unbiased toward high-cardinality features [72]. Built-in feature importance from tree-based ensembles (e.g., Gini importance in random forests [85, 86], gain in XGBoost [96]) provides computationally efficient but potentially biased rankings [73]. Gradient boosting algorithms use a greedy function approximation to iteratively minimize prediction error [87]. Best practice recommends reporting both methods alongside SHAP to assess consistency [23], a protocol the present study follows.
+#### 2.5.2 Comparison with Feature Importance Methods
+While standard tree ensembles output impurity-based Gini importances [84, 85], these can be biased toward high-cardinality features [86]. Permutation importance measures performance drops under feature shuffling, but correlated variables can induce extrapolation artifacts [87, 88]. Partial Dependence Plots (PDP) and Individual Conditional Expectation (ICE) plots visualize marginal effects [74, 89], while SHAP provides both local instance-level attributions and global feature rankings [23, 90].
 
 
-#### 2.5.3 Partial Dependence Plots and Local Explanations
+### 2.6 Mixed-Methods Research in Burnout Scholarship
 
-Partial dependence plots [74] visualize the marginal effect of one or two features on the predicted outcome, averaging over all other features. While useful for capturing global trends, PDPs can be misleading when features are correlated, as unrestricted marginal averaging can force predictions into regions unsupported by the training data [88]. Individual Conditional Expectation (ICE) plots [89] address this limitation by displaying the effect for each observation individually. Together with local SHAP waterfall and force plots, these methods enable case-level explanation - a critical requirement for early-warning systems that must justify flagging a specific student as at-risk [23, 25].
+Mixed-methods designs combine quantitative statistical power with qualitative depth, generating meta-inferences that neither methodology can produce independently [26, 28]. In educational psychology, mixed-methods studies allow researchers to pair quantitative predictive screening with narrative explanations of lived student experiences [27, 37].
 
+In accordance with Creswell and Plano Clark's [26] framework, this study adopts an *explanatory sequential mixed-methods design (QUAN → QUAL)*. In this architecture, quantitative survey modeling and ML classification (QUAN) are conducted first to establish empirical risk predictors and feature rankings. These quantitative findings then guide purposive sampling for in-depth qualitative interviews (QUAL), which contextualize and explain the algorithmic patterns.
 
-#### 2.5.4 XAI Gaps in Burnout Research
-
-Despite the availability of these tools, most ML-based burnout studies either omit interpretability analysis entirely or restrict it to a single global feature ranking (typically Gini importance [90]). Systematic XAI analysis using SHAP feature attributions remains rare in educational mental health applications [23]. The present study fills this gap by applying SHAP analysis systematically to the best-performing model to extract global feature importance hierarchies.
-
-
-### 2.6 Internal Validation and Model Robustness
-
-Within educational ML research, rigorous internal validation procedures are critical to prevent overfitting, particularly when modeling high-dimensional psychometric data. A systematic review by Namoun and Alshanqiti [91] highlighted that many ML studies predicting student outcomes fail to employ strict k-fold cross-validation, risking inflated performance metrics. The present study addresses this by implementing a 10-Fold stratified cross-validation framework on the primary survey dataset (N=601). While external validation on a completely independent sample (as recommended by TRIPOD guidelines [30, 114]) remains the gold standard for clinical deployment, robust internal cross-validation constitutes a necessary first step for exploratory model building, though future work should pursue external validation on independent samples.
+Within student burnout literature, mixed-methods studies pairing machine learning with qualitative inquiry remain exceptionally rare [14, 45, 60]. This gap represents the primary methodological motivation of our investigation.
 
 
-### 2.7 Mixed-Methods Approaches in Burnout Research
+### 2.7 Synthesis of Research Gaps
 
-Mixed-methods research designs integrate quantitative and qualitative data within a single study to produce inferences that neither strand can generate alone [25, 26]. Johnson et al. [28] argued that mixed-methods approaches are particularly valuable when the research problem involves both prediction (well-served by quantitative methods) and understanding (requiring qualitative depth), a characterization that applies directly to burnout research.
+The literature identifies five primary gaps that motivate this study:
+- **Gap 1 (Validation Rigor):** Overreliance on single train-test splits without systematic 10-fold cross-validation or sub-group robustness testing [20, 91].
+- **Gap 2 (Interpretability Deficit):** Widespread deployment of black-box algorithms without game-theoretic XAI (SHAP) explanations [23, 25].
+- **Gap 3 (Contextual Focus):** Scarcity of empirical machine learning studies in South Asian higher education contexts [10, 80].
+- **Gap 4 (Methodological Separation):** Parallel evolution of quantitative ML modeling and qualitative inquiry with minimal mixed-methods integration [26].
+- **Gap 5 (Theoretically Grounded Feature Engineering):** Limited operationalization of established psychological frameworks (JD-R and COR) into composite predictive features [31, 34].
 
-Several typologies of mixed-methods designs have been proposed. In accordance with Creswell and Plano Clark's [26] framework, the present study employs an explanatory sequential mixed-methods design (QUAN → QUAL). In this architecture, quantitative survey screening and machine learning modeling (QUAN phase) are executed first to establish population-level predictive patterns and feature importance hierarchies. Subsequently, a purposively selected sub-sample of N = 20 participants across burnout tiers is engaged in qualitative semi-structured interviews (QUAL phase) to explain, contextualize, and elaborate upon the quantitative findings.
-
-Within the burnout literature specifically, mixed-methods designs are strikingly underrepresented. Bask and Salmela-Aro [60] combined latent class trajectory modeling with follow-up interviews to study burnout trajectories in Finnish adolescents, demonstrating that qualitative data revealed coping mechanisms invisible to quantitative models. Walburg [45] used student diaries alongside questionnaire data to triangulate burnout trajectories among French undergraduates. In the South Asian context, Faisal et al. [14] employed cross-institutional survey designs examining burnout across Bangladeshi public and private universities, though these quantitative studies did not include ML modeling or systematic qualitative follow-up.
-
-Within the student burnout literature specifically, research integrating machine learning classification with local XAI explanations and systematic qualitative thematic analysis within a unified mixed-methods design remains exceptionally rare. This methodological separation represents the central gap that the present investigation addresses.
-
-
-### 2.8 Synthesis of Research Gaps and Rationale for the Present Study
-
-The preceding review reveals five interconnected gaps in the current literature:
-
-Gap 1: Overreliance on single-dataset internal evaluation. Many studies lack rigorous 10-Fold cross-validation, limiting the robustness of their predictive models.
-
-Gap 2: Shallow interpretability. Most studies that employ ML for burnout prediction either omit interpretability analysis or rely on opaque feature rankings. The present study applies SHAP feature attributions [23] to provide interpretable explanations for model predictions [21, 24].
-
-Gap 3: Limited contextual diversity and single-population focus. Many existing studies train ML models on convenience samples from single institutions or Western-centric populations, limiting generalizability [80]. The present study contributes a primary survey dataset baseline from multiple Bangladeshi universities spanning diverse institutional types under rigorous 10-fold stratified cross-validation, while acknowledging multi-center external validation across independent international populations as necessary future work.
-
-Gap 4: Methodological disconnect. Quantitative ML models and qualitative burnout scholarship have developed largely in parallel, with limited empirical integration through formal mixed-methods triangulation protocols capable of yielding contextualized meta-inferences [26].
-
-Gap 5: Absence of theoretically grounded feature engineering. The majority of ML-based burnout studies rely on raw psychometric scale scores as model inputs, without constructing domain-specific composite features that operationalize established theoretical constructs (e.g., the demand-to-resource ratio of JD-R theory, or the resource depletion pathway of COR theory). This limits the model's capacity to capture complex, theoretically meaningful interaction effects and reduces interpretability in terms of established burnout frameworks [30, 33].
-
-The present study addresses all five gaps simultaneously through an explanatory sequential mixed-methods design (QUAN → QUAL) that:
-
-
-1. Trains ten supervised ML classifiers and a Soft Voting Ensemble on the primary survey dataset (N = 601) with comprehensive multi-metric evaluation via 10-fold stratified cross-validation (addressing Gap 1).
-
-
-2. Applies SHAP feature attribution analysis to the best-performing model to unpack global predictive mechanics (addressing Gap 2).
-
-
-3. Contributes a primary survey dataset drawn from multiple Bangladeshi universities spanning diverse institutional types, providing an ecologically valid non-Western context for burnout ML research (addressing Gap 3).
-
-
-4. Conducts systematic qualitative thematic analysis of semi-structured interview data from 20 Bangladeshi university students using open, axial, and selective coding, then integrates findings through a structured triangulation protocol (addressing Gap 4).
-
-
-5. Engineers nine theoretically grounded composite features (e.g., Burnout Vulnerability Index, Screen-to-Sleep Ratio, Psychological Strain Index) that operationalize JD-R and COR constructs, directly embedding burnout theory into the predictive feature space (addressing Gap 5).
-
-Table 1 provides a structured comparison of the present study against key prior works across methodological dimensions:
+Table 1 summarizes how the present study compares against key prior works across these methodological dimensions:
 
 ### Table 1. Structured Methodological Comparison Against Prior Literature
 
@@ -336,9 +238,7 @@ Table 1 provides a structured comparison of the present study against key prior 
 | Hossen et al. (2023) [111] | University Student Psychological Distress | 1,200 | Binary Logistic Regression | Adjusted Odds Ratios ($\text{AOR}$) | Not applicable | No | No |
 | **Present study** | **University Student Academic Burnout** | **601** | **10 models + Soft Voting Ensemble** | **SHAP (Global + Local) + PI + FI** | **10-Fold Stratified CV + Subgroup** | **Yes (N = 20 interviews)** | **Yes (Explanatory Matrix)** |
 
-Note. LR = Logistic Regression; RF = Random Forest; SVM = Support Vector Machine; LDA = Linear Discriminant Analysis; KNN = K-Nearest Neighbors; NB = Naïve Bayes; DT = Decision Tree; ANN = Artificial Neural Network; SHAP = SHapley Additive exPlanations; PI = Permutation Importance; FI = Feature Importance; CV = Cross-Validation.
-
-This configuration represents a methodologically comprehensive explanatory sequential mixed-methods ML framework specifically applied to student burnout prediction in the Bangladeshi higher education context. The following section details the methodology that operationalizes this framework.
+*Note.* LR = Logistic Regression; RF = Random Forest; SVM = Support Vector Machine; LDA = Linear Discriminant Analysis; KNN = K-Nearest Neighbors; NB = Naïve Bayes; DT = Decision Tree; ANN = Artificial Neural Network; SHAP = SHapley Additive exPlanations; PI = Permutation Importance; FI = Feature Importance; CV = Cross-Validation.
 
 
 ## 3. Materials and Methods
@@ -346,109 +246,84 @@ This configuration represents a methodologically comprehensive explanatory seque
 
 ### 3.1 Research Design
 
-This study employs an explanatory sequential mixed-methods design (QUAN → QUAL) [26], integrating supervised Machine Learning (ML) on quantitative survey data with reflexive thematic analysis of qualitative interviews. In accordance with Creswell and Plano Clark [26], quantitative survey data collection and ML classification (QUAN) were conducted first to identify empirical predictors of burnout. Subsequently, qualitative semi-structured interviews (QUAL) were conducted with a purposively selected sub-sample to explain and elaborate upon the quantitative feature attributions. By triangulating computational predictions with human-centric qualitative data, this methodology addresses the "black box" limitations of standard educational data mining.
+We utilized an explanatory sequential mixed-methods design (QUAN → QUAL) [26], combining supervised machine learning on cross-sectional survey data with reflexive thematic analysis of qualitative interviews. In the first phase (QUAN), survey data (N = 601) were analyzed using 10 supervised classification algorithms and game-theoretic SHAP explainability. In the second phase (QUAL), N = 20 students were purposively recruited across burnout severity tiers to elaborate upon the quantitative feature attributions through semi-structured interviews. Integrating both analytical streams via a structured convergence protocol addresses the interpretability limitations of conventional predictive modeling.
 
 
 ### 3.2 Participants and Sampling
 
-The primary quantitative dataset consists of a cross-sectional survey collected via Google Forms from university students in Bangladesh (N = 601). The sample encompasses multiple disciplines, predominantly drawing from Bachelor's (69.2%) and Master's (25.0%) degree students. Gender representation was relatively balanced (Male: 57.2%, Female: 42.8%).
+The quantitative survey sample comprises N = 601 university students in Bangladesh, recruited through online distribution across institutional networks. The cohort represents diverse academic disciplines, primarily Bachelor's (69.2%) and Master's (25.0%) degree students, with balanced gender representation (Male: 57.2%, Female: 42.8%).
 
-Following the quantitative survey analysis, a purposive sub-sample of 20 students was recruited using a nested maximum variation sampling strategy based on initial survey burnout scores (encompassing Low, Medium, and High burnout profiles) to explain the full experiential gradient of academic strain. This qualitative sample size ($N = 20$) aligns with established methodological guidelines for reaching theoretical and thematic data saturation in reflexive thematic analysis [118], and is consistent with Braun and Clarke's [98, 92] recommendation that thematic saturation is typically achievable within 20–30 interviews for relatively homogeneous populations.
+Following quantitative analysis, a purposive sub-sample of N = 20 students was selected using a nested maximum variation sampling strategy across burnout severity tiers (Low, Medium, High). This sample size ($N = 20$) satisfies established criteria for reaching thematic saturation in reflexive qualitative analysis within relatively homogeneous student populations [92, 98, 118].
 
 
-### 3.3 Data Collection Instruments and Validation
+### 3.3 Data Collection Instruments and Operationalization
 
-Quantitative Data: The online survey instrument measured critical academic, lifestyle, and psychological metrics. The primary target variable, academic burnout severity, was operationalized using a single-item, self-rated global burnout metric (`burnout_score`), scored on a 3-point ordinal scale (1 = Low Burnout, 2 = Medium Burnout, 3 = High Burnout). The conceptual domain definition was informed by the core burnout dimensions of the Maslach Burnout Inventory - Student Survey (MBI-SS) [6] and Copenhagen Burnout Inventory (CBI) [93]. For binary classification modeling, the score was thresholded into Low/Medium Burnout (Target = 0, n = 346, 57.57%) versus High Burnout (Target = 1, n = 255, 42.43%).
+**Quantitative Survey:** The survey collected sociodemographic indicators, behavioral metrics (study hours, sleep duration, physical activity, social media usage), and psychometric items (academic pressure, perceived stress, depressive affect, motivation). The primary outcome, academic burnout severity, was operationalized using a 3-point global ordinal metric (`burnout_score`: 1 = Low, 2 = Medium, 3 = High), conceptually informed by the Maslach Burnout Inventory-Student Survey (MBI-SS) [6] and Copenhagen Burnout Inventory (CBI) [93]. For binary classification modeling, scores were thresholded into Low/Medium Burnout (Target = 0, n = 346, 57.57%) versus High Burnout (Target = 1, n = 255, 42.43%).
 
-*Methodological Limitation & Rationale:* Single-item self-report operationalization offers response-rate and computational efficiency in large-scale exploratory student surveys [41, 57], avoiding survey fatigue while capturing global self-perceived strain. Single-item self-rated burnout measures have demonstrated acceptable concurrent validity with multi-item MBI instruments in large-scale survey contexts [118, 119]. Nonetheless, single-item measures do not replace full multi-item psychometric diagnostic scales such as the MBI-SS or CBI. Future studies should administer the full MBI-SS to establish formal concurrent validity against the present single-item operationalization and report Cronbach's α reliability for composite subscales. This operational choice is explicitly declared as a study limitation (Section 9.10).
+*Methodological Note:* Single-item global ratings provide response efficiency and high completion rates in exploratory student surveys [41, 57], demonstrating acceptable concurrent validity with multi-item scales in large-scale studies [118, 119]. We acknowledge the single-item formulation as an operational limitation (Section 9.10) and recommend future multi-institutional replications administer full multi-item psychometric scales.
 
-Qualitative Data: Semi-structured interviews lasting 45-60 minutes were conducted either in-person or via secure digital platforms. In accordance with explanatory sequential mixed-methods guidelines [26], quantitative survey modeling and qualitative thematic coding were structured as sequential analytical phases:
-1. *Sequential Analytical Structure:* The semi-structured qualitative interview guide was informed by survey findings and theoretical domain constructs (academic workload, psychological distress, digital screen habits, sleep recovery, and institutional coping resources). Qualitative open coding was performed prior to inspecting final ML SHAP importance rankings to prevent confirmatory bias.
-2. *Joint Triangulation Synthesis:* Convergence mapping between SHAP global feature ranks and qualitative themes occurred during the post-hoc synthesis phase via a formal convergence matrix [99]. This qualitative inquiry yielded both convergent alignments with SHAP predictors (e.g., CGPA anxiety, sleep deprivation) and complementary contextual insights — such as institutional identity strain among National University students — that were omitted from standardized quantitative survey items, illustrating the value of mixed-methods integration.
+**Qualitative Interviews:** Semi-structured interviews (45–60 minutes) were conducted in-person or via secure digital video platforms. The interview guide explored academic pressures, coping mechanisms, digital media habits, sleep schedules, and institutional support systems. To prevent confirmatory bias, open coding of qualitative transcripts was completed prior to examining final SHAP quantitative feature rankings.
+
 
 ### 3.4 Ethical Considerations
 
-This study was conducted in accordance with the ethical principles outlined in the Declaration of Helsinki for research involving human subjects. Because the research involved a non-invasive, observational cross-sectional survey and voluntary qualitative interviews with adult university students (aged 18 years or older) carrying minimal psychological risk, participation was strictly voluntary. Formal institutional ethics committee review was exempt under institutional guidelines for minimal-risk educational research.
+This study was conducted in accordance with the ethical principles of the Declaration of Helsinki for research involving human subjects. Because the research involved an observational, non-invasive cross-sectional survey and voluntary qualitative interviews with adult university students (aged 18 years or older) carrying minimal psychological risk, formal ethics committee review was exempt under institutional guidelines for minimal-risk educational research.
 
-Prior to participation, all respondents provided informed electronic consent after being briefed on the study's purpose, the strictly voluntary nature of participation, and their unconditional right to withdraw at any time without penalty or academic consequence. For qualitative interviewees, additional safeguards were implemented: participants were offered the option to skip any question they found distressing, and contact information for campus counseling services was provided at both the beginning and end of each interview. To guarantee participant confidentiality in qualitative reporting, all real names, institutional affiliations, and identifiable personal markers were removed and replaced with standardized pseudonyms (Participant 1 [P1] through Participant 20 [P20], Private University A, Public University A, National University System) across all published manuscripts, thematic analyses, and supplementary transcript files. Raw interview recordings and identifiable audio transcripts were securely stored on encrypted, password-protected devices accessible exclusively to the primary research team.
+All participants provided informed electronic consent prior to completing the survey and participating in interviews. For qualitative interviewees, participation was strictly voluntary, with freedom to skip any question or withdraw at any time without academic consequence. Counseling support contact details were provided to all interviewees. To preserve complete confidentiality, all personal identifiers and institutional names were anonymized using standardized pseudonyms (Participant 1 [P1] to Participant 20 [P20]) across all published materials. Raw audio files and transcripts were stored on encrypted, password-protected local storage accessible solely to the research team.
 
 
 ### 3.5 Data Preprocessing and Feature Engineering
 
-Prior to model training, a multi-stage data preprocessing and feature engineering pipeline was implemented using the `scikit-learn` framework [94] (Python environment pinned in `requirements.txt`). To enforce strict code hygiene and prevent pipeline versioning divergence, all composite feature engineering logic was encapsulated within a single, modular Python package (`feature_engineering.py`) imported identically across model training, cross-validation, and SHAP interpretability scripts.
+Data preprocessing and model evaluation were implemented in Python using `scikit-learn` [94], with exact runtime dependencies documented in `requirements.txt`. All feature engineering routines were encapsulated within a shared module (`feature_engineering.py`) to ensure consistency across training, cross-validation, and SHAP pipelines.
 
-The primary survey dataset was verified to be complete with zero missing values across all 18 variables, ensuring full retention of all N = 601 participant responses. For binary classification modeling, the target variable (Burnout Score) was mapped into High Burnout (Severity Score = 3) versus Low/Medium Burnout (Severity Scores = 1 and 2) [80].
+The survey dataset was verified for completeness, containing zero missing values across all 18 variables (N = 601). The binary classification target mapped High Burnout (Score = 3, n = 255, 42.43%) against Low/Medium Burnout (Scores 1 and 2, n = 346, 57.57%). Stratified 10-fold cross-validation preserved class ratios across all evaluation folds.
 
-*Class Imbalance Management & Threshold Calibration:* To account for the class distribution between High Burnout (n = 255, 42.43%) and Low/Medium Burnout (n = 346, 57.57%) cohorts (imbalance ratio 1:1.36), 10-fold stratified cross-validation was strictly maintained to preserve identical class proportions across all training and test folds. No synthetic oversampling (SMOTE) was introduced to prevent artificial variance inflation on self-report survey items. Under the default decision boundary ($th = 0.50$), the champion Random Forest classifier achieved high specificity (82.37%) and modest recall (43.53%), reflecting standard majority-class thresholding. To enable high-coverage screening, decision threshold optimization was systematically conducted (Section 6.4), where shifting the operating threshold to $th = 0.38$ elevated sensitivity to 71.76% (capturing 183 of 255 high-risk students) for institutional early-warning triage.
-
-*Sensitivity Analysis & Scale Invariance:* Composite indices use clean unweighted domain summations and ratios (Table 2). Since all models are preceded by StandardScaler normalization within the sklearn Pipeline, the absolute numeric scale of composite indices does not affect model training or classification boundaries — a property verified by confirming that raw and mean-centered composite features yield identical 65.89% cross-validated accuracy.
-
-1. Dataset Integrity and Quality Control: The primary survey dataset ($N = 601$) was verified for completeness (zero missing values across all 18 variables). Crucially, to prevent circular data leakage, all engineered features were explicitly audited against the target variable (`target`): Pearson correlations for composite features remained low to moderate (`academic_pressure_score` r = 0.0152, `burnout_vulnerability_index` r = 0.1830), confirming zero target proxy leakage. Construct overlap between composite distress indices and target self-reports is acknowledged as a psychometric characteristic of aggregate survey scales (Section 9.10).
-
-2. Explicit Hyperparameter Specifications: To ensure strict reproducibility [108], model hyperparameters were fixed prior to cross-validation evaluation and pinned against a reproducible runtime environment (Python 3.13 / 3.11 with pinned dependencies documented in `requirements.txt`). This design choice prioritises computational reproducibility and cross-model comparability over potential marginal performance gains from automated search. Systematic hyperparameter optimisation via cross-validated grid search (e.g., GridSearchCV or RandomizedSearchCV) is identified as a priority for future work with larger independent validation datasets:
-   - *Random Forest:* `n_estimators=150, max_depth=8, random_state=42`
-   - *Gradient Boosting:* `n_estimators=100, learning_rate=0.1, random_state=42`
-   - *LightGBM:* `n_estimators=100, learning_rate=0.1, random_state=42`
-   - *CatBoost:* `iterations=150, learning_rate=0.08, random_state=42`
-   - *Logistic Regression:* `max_iter=1000, C=1.0, random_state=42`
-   - *Extra Trees:* `n_estimators=100, max_depth=8, random_state=42`
-   - *Support Vector Machine (SVM):* `kernel='rbf', C=1.0, probability=True, random_state=42`
-   - *Multilayer Perceptron (MLP):* `hidden_layer_sizes=(64, 32), max_iter=300, random_state=42`
-   - *XGBoost:* `n_estimators=100, learning_rate=0.3, max_depth=6, random_state=42` (standard default parameters maintained without post-hoc tuning to preserve uniform benchmark comparability; note that higher learning rates were avoided to mitigate potential overfitting risks in small-sample N=601 psychometric data)
-   - *Decision Tree:* `max_depth=4, random_state=42`
-
-3. Domain-Specific Feature Engineering Specifications: Nine non-linear composite features were created to capture psychological and academic interactions. The engineered composite features and their theoretical foundations are detailed in Table 2:
+To capture non-linear psychological dynamics, nine composite indices were engineered based on JD-R and COR theory (Table 2). Target correlations for composite features remained low to moderate ($|r| = 0.015$ to $0.265$), confirming that engineered indices reflect theoretical construct overlap rather than circular target proxy leakage.
 
 ### Table 2. Domain-Specific Feature Engineering Specifications
 
 | Feature Name | Category | Mathematical Definition / Calculation | Conceptual Rationale |
 |---|---|---|---|
-| `psychological_strain_index` | Psychological | `stress_score + depression_score` | Unweighted summation of core affective distress drivers. |
-| `academic_pressure_index` | Academic Load | `academic_pressure_score + workload_score` | Quantifies structural academic demands from coursework and assignments. |
-| `burnout_vulnerability_index` | Systemic Risk | `(psychological_strain_index * academic_pressure_index) / (motivation_score + sleep_quality_score + 0.1)` | Evaluates total demand exposure against biological and motivational recovery reserves [31]. |
-| `sleep_deprivation_index` | Behavioral Deficit | `max(0, 8.0 - sleep_hours_numeric) * (4.0 - sleep_quality_score)` | Measures cumulative biological exhaustion from sub-optimal sleep duration and quality. |
-| `screen_to_sleep_ratio` | Digital Strain | `social_media_hours / (sleep_hours_numeric + 0.1)` | Gauges digital displacement of vital biological recovery hours [67]. |
-| `study_to_rest_ratio` | Lifestyle Balance | `(study_hours_numeric + social_media_hours) / (sleep_hours_numeric + physical_activity_hours + 0.1)` | Captures total daily cognitive load relative to restorative rest buffers. |
+| `psychological_strain_index` | Psychological | `stress_score + depression_score` | Summation of core affective distress indicators. |
+| `academic_pressure_index` | Academic Load | `academic_pressure_score + workload_score` | Quantifies perceived academic demands from coursework and assignments. |
+| `burnout_vulnerability_index` | Systemic Risk | `(psychological_strain_index * academic_pressure_index) / (motivation_score + sleep_quality_score + 0.1)` | Evaluates total demand exposure against restorative reserves [31]. |
+| `sleep_deprivation_index` | Behavioral Deficit | `max(0, 8.0 - sleep_hours_numeric) * (4.0 - sleep_quality_score)` | Measures biological exhaustion from restricted sleep duration and quality. |
+| `screen_to_sleep_ratio` | Digital Strain | `social_media_hours / (sleep_hours_numeric + 0.1)` | Gauges digital displacement of restorative sleep hours [67]. |
+| `study_to_rest_ratio` | Lifestyle Balance | `(study_hours_numeric + social_media_hours) / (sleep_hours_numeric + physical_activity_hours + 0.1)` | Captures daily cognitive demands relative to restorative buffers. |
 | `academic_performance_index` | Academic Standing | `(cgpa_midpoint / 4.0) * (attendance_pct / 100.0)` | Normalizes academic achievement weighted by classroom engagement. |
-| `motivation_deficit_score` | Motivational Strain | `(4.0 - motivation_score) * stress_score` | Quantifies motivational erosion exacerbated by high psychological stress [36]. |
-| `wellbeing_buffer` | Protective Reserve | `(physical_activity_hours + sleep_quality_score) - stress_score` | Measures net physiological and behavioral coping capacity against stress [34]. |
-
-### 3.6 Machine Learning & Ensemble Pipeline Architecture
-
-Ten distinct machine learning classifiers and an advanced Soft Voting Ensemble architecture were deployed to capture both linear and complex non-linear decision boundaries:
+| `motivation_deficit_score` | Motivational Strain | `(4.0 - motivation_score) * stress_score` | Quantifies motivational erosion exacerbated by high stress [36]. |
+| `wellbeing_buffer` | Protective Reserve | `(physical_activity_hours + sleep_quality_score) - stress_score` | Measures net behavioral coping capacity against psychological demands [34]. |
 
 
-1. Linear Baseline: Logistic Regression.
+### 3.6 Machine Learning and Ensemble Pipeline Architecture
 
+Ten supervised classification algorithms and a Soft Voting Ensemble were evaluated:
+1. *Linear Baseline:* Logistic Regression (`max_iter=1000, C=1.0, random_state=42`).
+2. *Tree-Based Ensembles:* Decision Tree (`max_depth=4`), Random Forest (`n_estimators=150, max_depth=8`), Extra Trees (`n_estimators=100, max_depth=8`).
+3. *Gradient Boosting Frameworks:* Gradient Boosting (`n_estimators=100, learning_rate=0.1`), XGBoost (`n_estimators=100, learning_rate=0.3, max_depth=6`), LightGBM (`n_estimators=100, learning_rate=0.1`), CatBoost (`iterations=150, learning_rate=0.08`).
+4. *Support Vector & Neural Architectures:* Support Vector Machine (`kernel='rbf', C=1.0, probability=True`), Multilayer Perceptron (`hidden_layer_sizes=(64, 32), max_iter=300`).
+5. *Soft Voting Ensemble:* Averaged predicted probabilities from Random Forest, Gradient Boosting, LightGBM, Logistic Regression, and CatBoost.
 
-2. Tree-Based Architectures: Decision Tree, Random Forest, Extra Trees Classifier.
-
-
-3. Gradient Boosting Frameworks: Gradient Boosting Classifier, XGBoost [96], LightGBM [113], CatBoost [97].
-
-
-4. Advanced Non-Linear & Ensemble Models: Support Vector Machine (RBF Kernel), Neural Network (Multilayer Perceptron), and a Soft Voting Ensemble combining Random Forest, Gradient Boosting, LightGBM [113], Logistic Regression, and CatBoost [97] with soft probability averaging (equal weights).
-
-The dataset was evaluated using 10-Fold Stratified Cross-Validation, ensuring the proportion of high-burnout cases remained consistent across all folds, thereby preventing data leakage and providing robust generalization metrics.
+All numerical features were scaled via `StandardScaler` and categorical variables encoded via `OneHotEncoder(drop='first')` within leak-free cross-validation pipelines. Figure 1 outlines the end-to-end analytical workflow.
 
 Figure 1: End-to-End Methodology and Machine Learning Pipeline Architecture
 
 ![Figure 1: End-to-End Methodology and Machine Learning Pipeline Architecture](Figure_1_Workflow.png)
 
-
 Figure 1. End-to-End Methodology and Machine Learning Pipeline Architecture showing data collection, preprocessing, feature engineering, 10-fold CV ensemble training, and XAI evaluation.
 
 
-### 3.7 Explainable AI (XAI)
+### 3.7 Explainable AI (XAI) Protocol
 
-To unpack the predictive mechanics of the best-performing models, SHapley Additive exPlanations (SHAP) were applied [23]. SHAP values calculate the marginal contribution of each feature to the final burnout prediction [83], transforming the opaque machine learning output into a transparent, actionable clinical hierarchy.
+To explain model predictions, SHapley Additive exPlanations (SHAP) [24] were applied to the leading Random Forest model. Mean absolute SHAP values across all instances quantified global feature importance. To verify stability, SHAP rank order was compared between full-dataset refit and fold-by-fold cross-validated out-of-fold estimates, yielding near-perfect alignment (Spearman rank correlation $\rho = 0.97, p < .001$).
 
 
-### 3.8 Qualitative Analysis and Triangulation Protocol
+### 3.8 Qualitative Thematic Analysis and Inter-Rater Reliability
 
-The 20 qualitative interview transcripts were analyzed using Braun and Clarke [98, 92] six-phase framework for reflexive thematic analysis. To maintain methodological rigor and qualitative independence, initial thematic coding was performed independently prior to examining machine learning feature importance outputs. Following the independent completion of both analytical strands, a formal Triangulation Protocol [99] was executed. Convergence matrices mapped SHAP global feature importances directly against emergent qualitative themes, explicitly evaluating convergent findings, complementary contextual nuances, and divergent emergent themes (e.g., institutional identity strain).
+Interview transcripts were analyzed following Braun and Clarke's [92, 98] six-phase reflexive thematic analysis framework. To ensure qualitative independence, initial open coding was completed prior to examining quantitative ML feature rankings.
 
-To establish qualitative coding reliability, a randomly selected 25% subset of transcripts (n = 5 transcripts, purposively balanced across burnout severity strata) was independently re-coded by a second qualitative researcher following initial open and axial code generation. Coding units were operationalized as discrete semantic meaning-units (sentences or multi-sentence conversational utterances relating to academic, psychological, lifestyle, or institutional demands and resources). Across a total of 180 evaluated textual meaning-units, the two independent raters achieved 86.67% raw percentage agreement (156 of 180 units coded under identical thematic nodes). Inter-rater agreement evaluated via Cohen's κ yielded κ = 0.82 (95% CI [0.74, 0.90]; substantial agreement under Landis & Koch, 1977 [120] criteria), confirming robust thematic reproducibility across independent analysts. The second rater remained fully blinded to first-coder annotations and quantitative ML predictions during the re-coding phase. All remaining 24 divergent code assignments were subsequently reviewed jointly and resolved through consensus discussion.
+To establish coding reliability, a 25% random sub-sample of transcripts ($n = 5$, balanced across burnout strata) was independently re-coded by a second bilingual educational researcher blinded to quantitative model outputs. Across 180 evaluated textual meaning-units, raw agreement reached 86.67% (156 of 180 units coded under identical thematic nodes), with substantial inter-rater reliability (Cohen's $\kappa = 0.82$, 95% CI [0.74, 0.90]; Landis & Koch, 1977 [120]). Discrepancies were resolved through joint consensus discussion. Following completion of both strands, a formal triangulation matrix mapped SHAP predictors directly against emergent qualitative themes [99].
+
 
 
 ## 4. Exploratory Data Analysis
