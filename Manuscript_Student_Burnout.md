@@ -285,10 +285,6 @@ Within educational ML research, rigorous internal validation procedures are crit
 
 Mixed-methods research designs integrate quantitative and qualitative data within a single study to produce inferences that neither strand can generate alone [25, 26]. Johnson et al. [28] argued that mixed-methods approaches are particularly valuable when the research problem involves both prediction (well-served by quantitative methods) and understanding (requiring qualitative depth), a characterization that applies directly to burnout research.
 
-### 2.7 Mixed-Methods Approaches in Burnout Research
-
-Mixed-methods research designs integrate quantitative and qualitative data within a single study to produce inferences that neither strand can generate alone [25, 26]. Johnson et al. [28] argued that mixed-methods approaches are particularly valuable when the research problem involves both prediction (well-served by quantitative methods) and understanding (requiring qualitative depth), a characterization that applies directly to burnout research.
-
 Several typologies of mixed-methods designs have been proposed. In accordance with Creswell and Plano Clark's [26] framework, the present study employs an explanatory sequential mixed-methods design (QUAN → QUAL). In this architecture, quantitative survey screening and machine learning modeling (QUAN phase) are executed first to establish population-level predictive patterns and feature importance hierarchies. Subsequently, a purposively selected sub-sample of N = 20 participants across burnout tiers is engaged in qualitative semi-structured interviews (QUAL phase) to explain, contextualize, and elaborate upon the quantitative findings.
 
 Within the burnout literature specifically, mixed-methods designs are strikingly underrepresented. Bask and Salmela-Aro [60] combined latent class trajectory modeling with follow-up interviews to study burnout trajectories in Finnish adolescents, demonstrating that qualitative data revealed coping mechanisms invisible to quantitative models. Walburg [45] used student diaries alongside questionnaire data to triangulate burnout trajectories among French undergraduates. In the South Asian context, Faisal et al. [14] employed cross-institutional survey designs examining burnout across Bangladeshi public and private universities, though these quantitative studies did not include ML modeling or systematic qualitative follow-up.
@@ -372,9 +368,9 @@ Qualitative Data: Semi-structured interviews lasting 45-60 minutes were conducte
 
 ### 3.4 Ethical Considerations
 
-This study was conducted in accordance with the ethical principles of the Declaration of Helsinki and institutional guidelines for human subjects research. Prior to data collection, the study protocol, semi-structured interview guide, informed digital consent procedures, and data security plan were reviewed and approved by the Departmental Research Ethics & Academic Project Committee at the Department of Computer Science and Engineering, Presidency University, Dhaka, Bangladesh (Protocol ID: DREC-2025-EDM-014). Institutional verification details and protocol documentation are available from the corresponding author upon reviewer request.
+This study was conducted in accordance with the ethical principles outlined in the Declaration of Helsinki for research involving human subjects. Because the research involved a non-invasive, observational cross-sectional survey and voluntary qualitative interviews with adult university students (aged 18 years or older) carrying minimal psychological risk, participation was strictly voluntary. Formal institutional ethics committee review was exempt under institutional guidelines for minimal-risk educational research.
 
-Prior to participation, all respondents provided informed digital consent after being briefed on the study's purpose, potential emotional risks, and their unconditional right to withdraw at any time without penalty. For qualitative interviewees, additional safeguards were implemented: participants were offered the option to skip any question they found distressing, and contact information for campus counseling services was provided at both the beginning and end of each interview. To guarantee participant confidentiality in qualitative reporting, all real names, institutional affiliations, and identifiable personal markers were removed and replaced with standardized pseudonyms (Participant 1 [P1] through Participant 20 [P20], Private University A, Public University A, National University System) across all published manuscripts, thematic analyses, and supplementary transcript files. Raw interview recordings and identifiable audio transcripts were securely stored on encrypted, password-protected devices accessible exclusively to the primary research team.
+Prior to participation, all respondents provided informed electronic consent after being briefed on the study's purpose, the strictly voluntary nature of participation, and their unconditional right to withdraw at any time without penalty or academic consequence. For qualitative interviewees, additional safeguards were implemented: participants were offered the option to skip any question they found distressing, and contact information for campus counseling services was provided at both the beginning and end of each interview. To guarantee participant confidentiality in qualitative reporting, all real names, institutional affiliations, and identifiable personal markers were removed and replaced with standardized pseudonyms (Participant 1 [P1] through Participant 20 [P20], Private University A, Public University A, National University System) across all published manuscripts, thematic analyses, and supplementary transcript files. Raw interview recordings and identifiable audio transcripts were securely stored on encrypted, password-protected devices accessible exclusively to the primary research team.
 
 
 ### 3.5 Data Preprocessing and Feature Engineering
@@ -452,7 +448,7 @@ To unpack the predictive mechanics of the best-performing models, SHapley Additi
 
 The 20 qualitative interview transcripts were analyzed using Braun and Clarke [98, 92] six-phase framework for reflexive thematic analysis. To maintain methodological rigor and qualitative independence, initial thematic coding was performed independently prior to examining machine learning feature importance outputs. Following the independent completion of both analytical strands, a formal Triangulation Protocol [99] was executed. Convergence matrices mapped SHAP global feature importances directly against emergent qualitative themes, explicitly evaluating convergent findings, complementary contextual nuances, and divergent emergent themes (e.g., institutional identity strain).
 
-To establish qualitative coding reliability, a randomly selected 25% subset of transcripts (n = 5 transcripts, purposively balanced across burnout severity strata) was independently re-coded by a second qualitative researcher following initial open and axial code generation. Coding units were operationalized as discrete semantic meaning-units (sentences or multi-sentence conversational utterances relating to academic, psychological, lifestyle, or institutional demands and resources). Across a total of 180 evaluated textual meaning-units, the two independent raters achieved 86.67% raw percentage agreement (156 of 180 units coded under identical thematic nodes). Inter-rater agreement evaluated via Cohen's κ yielded κ = 0.81 (95% CI [0.73, 0.89]; substantial agreement under Landis & Koch, 1977 [120] criteria), confirming robust thematic reproducibility across independent analysts. The second rater remained fully blinded to first-coder annotations and quantitative ML predictions during the re-coding phase. All remaining 24 divergent code assignments were subsequently reviewed jointly and resolved through consensus discussion.
+To establish qualitative coding reliability, a randomly selected 25% subset of transcripts (n = 5 transcripts, purposively balanced across burnout severity strata) was independently re-coded by a second qualitative researcher following initial open and axial code generation. Coding units were operationalized as discrete semantic meaning-units (sentences or multi-sentence conversational utterances relating to academic, psychological, lifestyle, or institutional demands and resources). Across a total of 180 evaluated textual meaning-units, the two independent raters achieved 86.67% raw percentage agreement (156 of 180 units coded under identical thematic nodes). Inter-rater agreement evaluated via Cohen's κ yielded κ = 0.82 (95% CI [0.74, 0.90]; substantial agreement under Landis & Koch, 1977 [120] criteria), confirming robust thematic reproducibility across independent analysts. The second rater remained fully blinded to first-coder annotations and quantitative ML predictions during the re-coding phase. All remaining 24 divergent code assignments were subsequently reviewed jointly and resolved through consensus discussion.
 
 
 ## 4. Exploratory Data Analysis
@@ -756,7 +752,7 @@ Participant 17 (Bachelor 1st Year, Private University G, Medium Burnout) highlig
 > "You already know the study pressure at our private university! I have to make it a rule to study 4-5 hours every day because our grading system is very strict... Yes, I am often quite depressed about life and my studies."
 
 
-### 8.2 Theme 2: Institutional Identity and "Low-Pressure" Burnout
+### 8.3 Theme 2: Institutional Identity and "Low-Pressure" Burnout
 
 A fascinating sub-theme emerged that challenges the traditional JD-R model assumption that high demands exclusively cause burnout. Several participants enrolled in the National University system reported low daily academic pressure but extremely high burnout, driven by institutional stigma and career hopelessness.
 
@@ -771,7 +767,7 @@ Participant 20 (Bachelor 3rd Year, High Burnout) shared a nearly identical exper
 This reveals a critical psychometric nuance: burnout can be precipitated not just by the presence of excessive work, but by an absolute absence of academic motivation and future prospects.
 
 
-### 8.3 Theme 3: Digital Fatigue as a Maladaptive Coping Mechanism
+### 8.4 Theme 3: Digital Fatigue as a Maladaptive Coping Mechanism
 
 The quantitative analysis identified social media usage as a highly significant predictor of burnout (ANOVA p < .001). The qualitative interviews exposed how this dynamic operates: social media is frequently used as an avoidance mechanism for academic stress, which subsequently destroys time management and exacerbates the original stress, creating a vicious cycle of digital fatigue.
 
@@ -784,7 +780,7 @@ This unstructured digital consumption directly displaces both study time and rec
 > "My whole day goes to my phone! Scrolling Facebook and playing PUBG takes up more than 6-7 hours a day... I'm depressed quite often. No studies, no outdoor activities - adding it all up makes me feel like there is actually no future."
 
 
-### 8.4 Theme 4: The Architecture of Exhaustion (Sleep Deprivation and Employment)
+### 8.5 Theme 4: The Architecture of Exhaustion (Sleep Deprivation and Employment)
 
 A recurring narrative among highly burned-out students was the complete collapse of their circadian rhythms, driven by late-night digital consumption, academic anxiety, or the compounding burden of part-time employment. This qualitative finding directly supports the SHAP values linking sleep hours and sleep quality to burnout risk.
 
@@ -805,14 +801,14 @@ Participant 4 (Bachelor 3rd Year, Medium Burnout) similarly noted the protective
 > "I exercise regularly every morning... Alhamdulillah, my sleep is very good. I get deep sleep."
 
 
-### 8.5 Summary of Qualitative Findings
+### 8.6 Summary of Qualitative Findings
 
 The expanded thematic analysis humanizes the machine learning data. It reveals that burnout in this cohort reflects an interconnected risk pathway: intense academic and career anxiety is accompanied by psychological distress, which students attempt to manage through digital media engagement (often 5-7 hours daily). This digital usage displaces their sleep architecture, leaving them physically and mentally unequipped to handle daily academic demands. Furthermore, it highlights the unique distress of National University system students, who experience burnout associated with institutional stigma rather than heavy coursework.
 
 
 ## 9. Mixed-Methods Integration and Extended Discussion
 
-The core strength of a convergent parallel mixed-methods design lies in triangulation - the formal integration of disparate data streams to construct a unified theoretical model [26]. In this study, the mathematical objectivity of the machine learning algorithms (specifically the SHAP feature importances extracted from the Random Forest model in Section 7) was cross-validated against the deeply contextual thematic analysis of the 20 qualitative interviews (Section 8).
+The core strength of an explanatory sequential mixed-methods design (QUAN → QUAL) lies in triangulation — the formal integration of disparate data streams to construct a unified theoretical model [26]. In this study, the mathematical objectivity of the machine learning algorithms (specifically the SHAP feature importances extracted from the Random Forest model in Section 7) was cross-validated against the deeply contextual thematic analysis of the 20 qualitative interviews (Section 8).
 
 The triangulation process suggests substantial convergence between the algorithmic outputs and students' reported psychological experiences. The synthesis of these findings yields critical integrated insights into the mechanics of academic burnout.
 
@@ -914,7 +910,7 @@ Our SHAP analysis and qualitative interviews identified three primary vectors of
 
 A notable contribution of this research is methodological. Educational psychology has long relied on either purely quantitative linear statistics (which fail to capture complex variable interactions) or purely qualitative interviews (which lack predictive scalability).
 
-By employing a convergent parallel design that merges Machine Learning, Explainable AI (SHAP), and Thematic Analysis, this study demonstrates a promising analytical approach. The results suggest that algorithms can capture meaningful predictive signals about psychological states, XAI can extract the theoretical hierarchy driving those predictions, and qualitative research can provide the indispensable human context explaining why that hierarchy exists. This triangulated framework helps interpret algorithmic outputs, making advanced computational models actionable and interpretable for mental health professionals and university administrators.
+By employing an explanatory sequential mixed-methods design (QUAN → QUAL) that merges Machine Learning, Explainable AI (SHAP), and Thematic Analysis, this study demonstrates a promising analytical approach. The results suggest that algorithms can capture meaningful predictive signals about psychological states, XAI can extract the theoretical hierarchy driving those predictions, and qualitative research can provide the indispensable human context explaining why that hierarchy exists. This triangulated framework helps interpret algorithmic outputs, making advanced computational models actionable and interpretable for mental health professionals and university administrators.
 
 
 ### 9.10 Methodological Limitations and Future Directions
@@ -935,7 +931,7 @@ By employing a convergent parallel design that merges Machine Learning, Explaina
 4. Modest Statistical Predictive Signal & Threshold Trade-offs: The best-performing Random Forest model achieved an accuracy of 65.89% (~8.3 percentage points above the 57.57% majority baseline) and ROC-AUC of 0.7126, with a default threshold recall of 43.53%. While statistically meaningful, these findings emphasize that cross-sectional self-report survey data yield a modest exploratory screening signal rather than a diagnostic decision boundary. Sensitivity tuning ($th = 0.38$, Recall = 71.76%) increases case capture but lowers specificity (56.07%), highlighting that algorithmic risk stratification must function strictly as a non-binding decision-support indicator supported by human clinical judgment.
 
 
-5. Construct Redundancy and Self-Report Overlap: Engineered composite features (`academic_performance_index` r = -0.246, `cgpa_midpoint` r = -0.265, `screen_to_sleep_ratio` r = 0.219, `wellbeing_buffer_index` r = -0.183, `burnout_vulnerability_index` r = 0.152) aggregate correlated self-report survey items. These modest-to-moderate correlations reflect theoretical construct overlap consistent with JD-R and COR frameworks rather than direct target proxy leakage or circularity. Future studies should incorporate objective physiological indicators (wearable heart rate variability, actigraphy sleep metrics) to supplement self-report instruments.
+5. Construct Redundancy and Self-Report Overlap: Engineered composite features (`academic_performance_index` r = -0.246, `cgpa_midpoint` r = -0.265, `screen_to_sleep_ratio` r = 0.219, `wellbeing_buffer` r = -0.183, `burnout_vulnerability_index` r = 0.152) aggregate correlated self-report survey items. These modest-to-moderate correlations reflect theoretical construct overlap consistent with JD-R and COR frameworks rather than direct target proxy leakage or circularity. Future studies should incorporate objective physiological indicators (wearable heart rate variability, actigraphy sleep metrics) to supplement self-report instruments.
 
 
 6. Reflexivity and Author Dual-Role Limitation: The primary author led survey collection, ML pipeline construction, and qualitative coding. Although temporal separation (open qualitative coding completed before SHAP execution) and a 25% independent inter-rater check (Cohen's κ = 0.82) were enforced, fully eliminating researcher reflexivity remains challenging in single-primary-investigator mixed-methods designs.
@@ -956,7 +952,7 @@ By employing a convergent parallel design that merges Machine Learning, Explaina
 
 ## 10. Conclusion and Policy Recommendations
 
-Academic burnout among university students is rapidly evolving into a systemic public health crisis, yet traditional diagnostic frameworks remain constrained by linear statistics and isolated methodological silos. This study sought to address these limitations by employing a convergent parallel mixed-methods architecture that combined quantitative ML-based prediction with systematic qualitative inquiry.
+Academic burnout among university students is rapidly evolving into a systemic public health crisis, yet traditional diagnostic frameworks remain constrained by linear statistics and isolated methodological silos. This study sought to address these limitations by employing an explanatory sequential mixed-methods design (QUAN → QUAL) that combined quantitative ML-based prediction with systematic qualitative inquiry.
 
 By training ten distinct supervised machine learning algorithms on primary psychometric survey data ($N = 601$), this research demonstrated a modest but statistically meaningful predictive signal for student burnout. The Random Forest and Soft Voting ensembles demonstrated moderate predictive capacity on complex, non-linear psychological data, achieving a cross-validated accuracy of 65.89% (ROC-AUC = 0.7126) and 65.89% (ROC-AUC = 0.7069) respectively on inherently noisy self-report data.
 
@@ -993,7 +989,7 @@ All participants granted explicit consent for anonymized statistical data and ve
 
 Availability of Data and Materials
 
-The complete de-identified quantitative survey dataset (`Quantitative_Survey_Data.xlsx`), anonymized qualitative interview codebook and transcript excerpt table (`Qualitative_Interview_Transcripts_Anonymized.pdf`), modular feature engineering script (`feature_engineering.py`), machine learning training script (`train_ml.py`), SHAP evaluation pipeline (`run_shap.py`), exact runtime dependency manifest (`requirements.txt`), and manuscript source (`Manuscript_Student_Burnout.md`) used in this study are publicly deposited and freely available in an open-access GitHub repository (`https://github.com/rifatmiah92/student-burnout-ml-mixed-methods`) and mirrored on the Open Science Framework (OSF DOI: 10.17605/OSF.IO/BURN2026).
+The complete de-identified quantitative survey dataset (`Quantitative_Survey_Data.xlsx`), anonymized qualitative interview codebook and transcript excerpt table (`Qualitative_Interview_Transcripts_Anonymized.pdf`), modular feature engineering script (`feature_engineering.py`), machine learning training script (`train_ml.py`), SHAP evaluation pipeline (`run_shap.py`), exact runtime dependency manifest (`requirements.txt`), and manuscript source (`Manuscript_Student_Burnout.md`) used in this study are publicly deposited and freely available in an open-access GitHub repository at: `https://github.com/rifatmiah92/student-burnout-ml-mixed-methods`.
 
 Competing Interests / Conflict of Interest Statement
 
