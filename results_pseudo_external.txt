@@ -1,0 +1,21 @@
+=====================================================================================
+PSEUDO-EXTERNAL SUBGROUP VALIDATION RESULTS (RANDOM FOREST)
+=====================================================================================
+
+1. Primary Evaluation: Bachelor's (Train N=416) -> Master's/PhD/Diploma (Test N=185)
+   - Internal 10-Fold CV Accuracy: 63.70%, ROC-AUC: 0.7136, F1: 0.5237
+   - Held-Out Subgroup Accuracy: 67.03%
+   - Held-Out Precision: 62.75%
+   - Held-Out Recall (Sensitivity): 43.24%
+   - Held-Out F1 Score: 0.5120
+   - Held-Out ROC-AUC: 0.6597
+   - Confusion Matrix [TN, FP / FN, TP]: [92, 19 / 42, 32]
+
+2. Sensitivity Check: Master's/PhD/Diploma (Train N=185) -> Bachelor's (Test N=416)
+   - Internal 10-Fold CV Accuracy: 55.68%, ROC-AUC: 0.5497, F1: 0.3051
+   - Held-Out Subgroup Accuracy: 64.18%
+   - Held-Out Precision: 64.29%
+   - Held-Out Recall (Sensitivity): 39.78%
+   - Held-Out F1 Score: 0.4915
+   - Held-Out ROC-AUC: 0.7030
+   - Confusion Matrix [TN, FP / FN, TP]: [195, 40 / 109, 72]

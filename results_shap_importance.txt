@@ -1,0 +1,37 @@
+============================================================
+GLOBAL SHAP FEATURE IMPORTANCE (RANDOM FOREST)
+============================================================
+                          Feature  Mean_SHAP_Value
+       academic_performance_index         0.038788
+                    cgpa_midpoint         0.036190
+            screen_to_sleep_ratio         0.029786
+      burnout_vulnerability_index         0.023787
+               social_media_hours         0.020227
+              study_to_rest_ratio         0.020061
+       psychological_strain_index         0.016576
+         motivation_deficit_score         0.016251
+                 depression_score         0.015420
+                     stress_score         0.015156
+          sleep_deprivation_index         0.012916
+                   attendance_pct         0.012882
+                  part_time_score         0.009416
+                 motivation_score         0.009272
+              study_hours_numeric         0.009084
+          academic_pressure_index         0.009041
+          academic_pressure_score         0.008102
+              sleep_hours_numeric         0.007845
+              sleep_quality_score         0.006906
+          physical_activity_hours         0.006854
+                 wellbeing_buffer         0.006660
+                      gender_Male         0.006600
+                   workload_score         0.005463
+           academic_year_3rd Year         0.004840
+      age_group_25 years or above         0.003626
+           academic_year_2nd Year         0.003308
+           degree_Master's Degree         0.002362
+            age_group_19–20 years         0.001675
+            age_group_23–24 years         0.001592
+         academic_year_Final Year         0.001537
+            age_group_21–22 years         0.001460
+            degree_PhD / Doctoral         0.000711
+degree_Diploma / Associate Degree         0.000558
