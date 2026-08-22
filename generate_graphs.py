@@ -120,14 +120,17 @@ with open(res_file, 'r', encoding='utf-8') as f:
 
 for line in lines_res[1:]: # Skip header
     line = line.strip()
-    if not line:
+    if not line or line.startswith('=') or line.startswith('MCNEMAR') or line.startswith('Pair'):
         continue
     parts = line.rsplit(maxsplit=6)
     if len(parts) == 7:
-        m_name = parts[0]
-        m_acc = float(parts[1])
-        models.append(m_name)
-        accuracies.append(m_acc)
+        try:
+            m_name = parts[0]
+            m_acc = float(parts[1])
+            models.append(m_name)
+            accuracies.append(m_acc)
+        except ValueError:
+            pass
 
 bar_colors_f2 = []
 for m, acc in zip(models, accuracies):

@@ -1,0 +1,6 @@
+=========================================================================
+NESTED CROSS-VALIDATION HYPERPARAMETER TUNING RESULTS
+=========================================================================
+                                Model  Accuracy  Precision  Recall  F1 Score  ROC-AUC  Time (s)
+      Random Forest (Nested CV Tuned)    0.6556     0.6379  0.4353    0.5175   0.7095    281.16
+Logistic Regression (Nested CV Tuned)    0.6273     0.5749  0.4667    0.5152   0.6768     10.13

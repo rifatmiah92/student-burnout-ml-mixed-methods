@@ -35,3 +35,9 @@ GLOBAL SHAP FEATURE IMPORTANCE (RANDOM FOREST)
             age_group_21–22 years         0.001460
             degree_PhD / Doctoral         0.000711
 degree_Diploma / Associate Degree         0.000558
+
+============================================================
+STRICT LEAK-FREE SHAP FOLD-BY-FOLD STABILITY VERIFICATION
+============================================================
+Spearman Rank Correlation (rho): 0.9856
+p-value: 1.6498e-25
