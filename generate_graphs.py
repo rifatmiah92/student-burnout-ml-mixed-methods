@@ -67,36 +67,55 @@ plt.close()
 # =========================================================================
 # FIGURE 3: Burnout Levels across Gender
 # =========================================================================
-fig, ax_g = plt.subplots(figsize=(9, 5.8), dpi=600)
+fig, ax_g = plt.subplots(figsize=(10, 6.2), dpi=600)
 fig.patch.set_facecolor('#FFFFFF')
 ax_g.set_facecolor('#FFFFFF')
 
 sns.countplot(
     data=df, 
     x='gender', 
+    order=['Female', 'Male'],
     hue='burnout_level', 
     hue_order=['Low Burnout', 'Medium Burnout', 'High Burnout'],
     palette=[c_coral, c_rose, c_plum], 
     ax=ax_g,
-    linewidth=0
+    linewidth=0,
+    zorder=3
 )
 
-plt.title('Figure 3: Burnout Levels across Gender', fontweight='bold', color=c_navy, fontsize=15, pad=20)
-ax_g.set_xlabel('Gender', fontweight='bold', color=c_navy, fontsize=12, labelpad=12)
-ax_g.set_ylabel('Number of Students', fontweight='bold', color=c_navy, fontsize=12, labelpad=12)
+plt.title('Figure 3: Burnout Levels across Gender', fontweight='bold', color=c_navy, fontsize=16, pad=20)
+ax_g.set_xlabel('Gender', fontweight='bold', color=c_navy, fontsize=13, labelpad=14)
+ax_g.set_ylabel('Number of Students', fontweight='bold', color=c_navy, fontsize=13, labelpad=14)
 
 ax_g.set_yticks([0, 20, 40, 60, 80, 100, 120, 140])
-ax_g.set_yticklabels(['0', '20', '40', '60', '80', '100', '120', '140'], color=c_navy, fontsize=11)
+ax_g.set_yticklabels(['0', '20', '40', '60', '80', '100', '120', '140'], color=c_navy, fontsize=12)
+ax_g.set_xticks([0, 1])
+ax_g.set_xticklabels(['Female', 'Male'], color=c_navy, fontsize=12, fontweight='bold')
 
-plt.legend(title='Burnout Level', frameon=True, facecolor='#F8FAFC', edgecolor='#E2E8F0', loc='upper left')
+# Tick styling
+ax_g.tick_params(axis='both', which='major', width=2.0, length=6, colors=c_navy)
 
+# Legend
+plt.legend(
+    title='Burnout Level', 
+    frameon=True, 
+    facecolor='#FFFFFF', 
+    edgecolor='#E2E8F0', 
+    framealpha=0.95,
+    loc='upper left',
+    fontsize=11.5,
+    title_fontsize=12
+)
+
+# Despine and Spines
 sns.despine(top=True, right=True)
 ax_g.spines['left'].set_color(c_navy)
-ax_g.spines['left'].set_linewidth(2.0)
+ax_g.spines['left'].set_linewidth(2.2)
 ax_g.spines['bottom'].set_color(c_navy)
-ax_g.spines['bottom'].set_linewidth(2.0)
+ax_g.spines['bottom'].set_linewidth(2.2)
 
-ax_g.grid(axis='y', linestyle='--', alpha=0.5, color='#E2E8F0')
+# Grid
+ax_g.grid(axis='y', linestyle='--', alpha=0.55, color='#E2E8F0', zorder=0)
 ax_g.grid(axis='x', visible=False)
 
 plt.tight_layout()
