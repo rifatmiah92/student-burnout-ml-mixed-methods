@@ -218,18 +218,26 @@ features_raw, shap_values_list = [], []
 
 if os.path.exists(shap_file):
     with open(shap_file, 'r', encoding='utf-8') as f:
+        in_feature_section = False
         for line in f:
             line = line.strip()
-            if not line or line.startswith('=') or line.startswith('Feature') or line.startswith('GLOBAL'):
+            if not line:
                 continue
-            parts = line.rsplit(maxsplit=1)
-            if len(parts) == 2:
-                try:
-                    val = float(parts[1])
-                    features_raw.append(parts[0])
-                    shap_values_list.append(val)
-                except ValueError:
-                    pass
+            if 'GLOBAL SHAP FEATURE IMPORTANCE' in line:
+                in_feature_section = True
+                continue
+            if 'STRICT LEAK-FREE SHAP' in line:
+                in_feature_section = False
+                break
+            if in_feature_section and not line.startswith('=') and not line.startswith('Feature'):
+                parts = line.rsplit(maxsplit=1)
+                if len(parts) == 2:
+                    try:
+                        val = float(parts[1])
+                        features_raw.append(parts[0])
+                        shap_values_list.append(val)
+                    except ValueError:
+                        pass
 
 shap_df = pd.DataFrame({
     'Feature': features_raw,
@@ -290,7 +298,7 @@ for bar, val in zip(bars, shap_reversed):
 sns.despine(top=True, right=True)
 ax_s.grid(axis='x', linestyle='--', alpha=0.5, color='#94A3B8', zorder=0)
 
-plt.tight_layout()
+plt.subplots_adjust(left=0.30, right=0.94, top=0.92, bottom=0.10)
 plt.savefig('Figure_6_SHAP.png', dpi=600, bbox_inches='tight')
 plt.close()
 
