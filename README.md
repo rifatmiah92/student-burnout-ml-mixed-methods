@@ -1,4 +1,4 @@
-# Explainable Machine Learning for Student Burnout Prediction: An Explanatory Sequential Mixed-Methods Study
+# Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -7,7 +7,7 @@
 
 This repository contains the complete primary dataset, feature engineering pipeline, machine learning modeling codebase, Explainable AI (SHAP) evaluation scripts, anonymized qualitative interview transcripts, and manuscript sources for the study:
 
-> **"Explainable Machine Learning for Student Burnout Prediction: An Explanatory Sequential Mixed-Methods Study with Qualitative Triangulation"**  
+> **"Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation"**  
 > **Authors:** Rifat Miah$^{1,*}$ and Dr. A.S.M. Shihavuddin$^{2}$  
 > $^{1}$ Department of Computer Science and Engineering, Presidency University, Dhaka 1212, Bangladesh  
 > $^{2}$ Department of Electrical and Electronic Engineering, Green University of Bangladesh, Dhaka 1207, Bangladesh  
@@ -108,13 +108,13 @@ python generate_graphs.py
 
 ## 📜 Citation & Ethical Statement
 
-This study was conducted under ethical approval (Protocol ID: `DREC-2025-EDM-014`) from Presidency University, Dhaka, Bangladesh. Informed consent was obtained from all survey and qualitative participants.
+This study was conducted in accordance with the Declaration of Helsinki. Because the research involved a non-invasive, minimal-risk observational survey ($N=601$) and voluntary interviews ($N=20$) with adult university students, formal institutional ethics committee review was exempt under institutional guidelines for minimal-risk educational data research. Informed electronic consent was explicitly obtained from all survey and qualitative participants prior to participation.
 
 If you use this dataset or codebase in your research, please cite:
 
 ```bibtex
 @article{miah2026burnout,
-  title={Explainable Machine Learning for Student Burnout Prediction: An Explanatory Sequential Mixed-Methods Study with Qualitative Triangulation},
+  title={Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation},
   author={Miah, Rifat and Shihavuddin, A.S.M.},
   journal={Educational Data Mining \& Mental Health Informatics},
   year={2026},

@@ -190,7 +190,7 @@ We used an explanatory sequential mixed-methods design (QUAN → QUAL) [26] comb
 
 ### 3.2 Sample and Participants
 
-The quantitative survey sample consists of N = 601 university students in Bangladesh, recruited through institutional networks via online distribution. The cohort consists of students from different academic fields, mainly Bachelor (69.2%) and Master students (25.0%) and has a gender-balanced ratio (Male: 57.2%, Female: 42.8%). The quantitative analysis was used to select a purposeful sub-sample of N = 20 students using a nested maximum variation sampling strategy across levels of burnout severity (Low, Medium, High). This sample size (N=20) satisfied the requirements for thematic saturation in reflexive qualitative analysis among relatively homogenous student populations [92, 98, 118].
+The quantitative survey sample consists of N = 601 university students in Bangladesh, recruited through institutional networks via online distribution. The cohort consists of students from different academic fields across Bachelor's (69.22%, n = 416), Master's (24.96%, n = 150), Ph.D. (4.49%, n = 27), and Diploma/Associate Degree programs (1.33%, n = 8), with a balanced gender ratio (Male: 57.24%, n = 344; Female: 42.76%, n = 257). The quantitative analysis was used to select a purposeful sub-sample of N = 20 students using a nested maximum variation sampling strategy across levels of burnout severity (Low, Medium, High). This sample size (N=20) satisfied the requirements for thematic saturation in reflexive qualitative analysis among relatively homogenous student populations [92, 98, 118].
 
 ### 3.3 Data collection tools and operationalisation
 
@@ -221,21 +221,17 @@ Data preparation and model evaluation were done in Python with `scikit-learn` [9
 
 ### 3.6 Machine Learning and Ensemble Pipeline Architecture
 
-As follows, ten supervised classification algorithms and a Soft Voting Ensemble were compared to classical statistical modelling frameworks [108] of flexible non-linear machine learning: 
-1) Linear Baseline: Logistic Regression (max_iter = 1000, random_state = 42, C = 1.0). 
-2. Tree based Ensemble Decision Tree (max_depth=4) Random Forest (n_estimators=150, max_depth=8) Extra Trees (n_estimators=100, max_depth=8) 
-3. Gradient Boosting Frameworks. Gradient Boosting (n_estimators=100, learning_rate=0.1), XGBoost (n_estimators=100, learning_rate=0.3, max_depth=6), LightGBM (n_estimators=100, learning_rate=0.1), CatBoost (iterations=150, learning_rate=0.08). 
-4. Support Vector & Neural Architectures Support Vector Machine (`kernel='rbf', C=1.0, probability=True`) Multi-layer Perceptron (`hidden_layer_sizes=(64, 32), max_iter=300` 
-5. Soft Voting Ensemble: The average of the predicted probabilities of Random Forest, Gradient Boosting, LightGBM, Logistic Regression and CatBoost. 
-For all numerical features we used StandardScaler and for categorical variables OneHotEncoder(drop='first') in leak-free cross-validation pipelines. We employed a 10-fold outer / 5-fold inner Nested Cross-Validation protocol (`GridSearchCV` inner loop tuning `n_estimators`, `max_depth` and `min_samples_split`) on the top classifiers to assess hyperparameter sensitivity and remove arbitrary hyperparameter selection bias. The entire analytical process is shown in Fig. 1. 
-Figure 1: ML pipeline end-to-end methodology and architecture
+As follows, ten supervised classification algorithms and a Soft Voting Ensemble were compared to classical statistical modelling frameworks [108] of flexible non-linear machine learning:
 
+1. **Linear Baseline**: Logistic Regression (`max_iter=1000, random_state=42, C=1.0`).
+2. **Tree-based Ensembles**: Decision Tree (`max_depth=4`), Random Forest (`n_estimators=150, max_depth=8`), and Extra Trees (`n_estimators=100, max_depth=8`).
+3. **Gradient Boosting Frameworks**: Gradient Boosting (`n_estimators=100, learning_rate=0.1`), XGBoost (`n_estimators=100, learning_rate=0.3, max_depth=6`), LightGBM (`n_estimators=100, learning_rate=0.1`), and CatBoost (`iterations=150, learning_rate=0.08`).
+4. **Support Vector & Neural Architectures**: Support Vector Machine (`kernel='rbf', C=1.0, probability=True`) and Multi-layer Perceptron (`hidden_layer_sizes=(64, 32), max_iter=300`).
+5. **Soft Voting Ensemble**: Average of predicted probabilities of Random Forest, Gradient Boosting, LightGBM, Logistic Regression, and CatBoost.
+
+For all numerical features we used StandardScaler and for categorical variables OneHotEncoder(drop='first') in leak-free cross-validation pipelines. We employed a 10-fold outer / 5-fold inner Nested Cross-Validation protocol (`GridSearchCV` inner loop tuning `n_estimators`, `max_depth` and `min_samples_split`) on the top classifiers to assess hyperparameter sensitivity and remove arbitrary hyperparameter selection bias. The entire analytical process is shown in Fig. 1.
 
 ![Figure 1: End-to-End Methodology and Machine Learning Pipeline Architecture](Figure_1_Workflow.png)
-
-Figure 1: End-to-End Methodology and Machine Learning Pipeline Architecture
-
-![Figure 1. End-to-End Methodology and Machine Learning Pipeline Architecture showing data collection, preprocessing, feature engineering, 10-fold CV ensemble training, and XAI evaluation.](Figure_1_Workflow.png)
 
 Figure 1. End-to-End Methodology and Machine Learning Pipeline Architecture showing data collection, preprocessing, feature engineering, 10-fold CV ensemble training, and XAI evaluation.
 
@@ -261,28 +257,15 @@ Analysis of continuous behavioural metrics showed that a student population was 
 
 ### 4.3.1 Target Variable Analysis (Burnout Level)
 
-The distribution of the dependent variable, burnout_score (severity from 1 to 3), was negatively skewed (left-skewed) which is typical of epidemiological data obtained in high-pressure educational environments . The frequencies monotonically increased toward the higher end of the severity spectrum (Score 1: n = 117; Score 2: n = 229; Score 3: n = 255). The modal category was High Burnout (Score = 3) with the tail extending leftward toward the under-represented Low Burnout category, confirming a negative skew. Most students reported experiencing “High” burnout (Severity Level 3: n = 255; 42.43%). Burnout in the “Medium” category (Severity Level 2) was reported by 38.10% (n = 229) of the cohort, while only 19.47% (n = 117) was in the “Low” burnout category (Severity Level 1). The sharp negative skew that over 80% of the surveyed cohort experiences moderate to severe academic exhaustion is consistent with recent literature documenting rising mental health crises within South Asian university systems [10]. This natural class imbalance presents a computational challenge for subsequent machine learning tasks [95], requiring the binarization of the target variable to correctly isolate the “High Burnout” cohort without threshold dilution. Figure 2. Distribution of Student Burnout Levels
-
-
+The distribution of the dependent variable, `burnout_score` (severity from 1 to 3), was negatively skewed (left-skewed) which is typical of epidemiological data obtained in high-pressure educational environments. The frequencies monotonically increased toward the higher end of the severity spectrum (Score 1: n = 117; Score 2: n = 229; Score 3: n = 255). The modal category was High Burnout (Score = 3) with the tail extending leftward toward the under-represented Low Burnout category, confirming a negative skew. Most students reported experiencing “High” burnout (Severity Level 3: n = 255; 42.43%). Burnout in the “Medium” category (Severity Level 2) was reported by 38.10% (n = 229) of the cohort, while only 19.47% (n = 117) was in the “Low” burnout category (Severity Level 1). The sharp negative skew that over 80% of the surveyed cohort experiences moderate to severe academic exhaustion is consistent with recent literature documenting rising mental health crises within South Asian university systems [10]. This natural class imbalance presents a computational challenge for subsequent machine learning tasks [95], requiring the binarization of the target variable to correctly isolate the “High Burnout” cohort without threshold dilution.
 
 ![Figure 2: Distribution of Student Burnout Levels](Figure_2_Distribution.png)
 
-Figure 2: Distribution of Student Burnout Levels
+Figure 2. Levels of severity of student burnout in the primary dataset (N = 601). The largest category was High Burnout (Severity Level 3) (42.43%, n = 255). 80.53% students reported moderate-to-severe burnout indicating the scale of the mental health challenge in Bangladeshi higher education. The negatively skewed distribution (modal category = High Burnout; tail extending toward Low Burnout) prompted binary dichotomisation (High vs. Low/Medium) for ML classification.
 
-![Figure 2. Levels of severity of student burnout in the primary data set (N = 601). The largest category was High Burnout (Severity Level 3) (42.43%, n = 255). 80.53% students reported moderate-to-severe burnout indicating the scale of the mental health challenge in Bangladeshi higher education. The negatively skewed distribution (modal category = High Burnout; tail extending toward Low Burnout) prompted binary dichotomisation (High vs. Low/Medium) for ML classification. 
-Figure 3: Distribution of Burnout Severity within Gender Groups](Figure_2_Distribution.png)
+![Figure 3: Burnout Severity Distribution Across Gender Brackets](Figure_3_Gender.png)
 
-Figure 2. Levels of severity of student burnout in the primary data set (N = 601). The largest category was High Burnout (Severity Level 3) (42.43%, n = 255). 80.53% students reported moderate-to-severe burnout indicating the scale of the mental health challenge in Bangladeshi higher education. The negatively skewed distribution (modal category = High Burnout; tail extending toward Low Burnout) prompted binary dichotomisation (High vs. Low/Medium) for ML classification. 
-Figure 3: Distribution of Burnout Severity within Gender Groups
-
-
-![Figure 3: Burnout Severity Distribution Across Gender Brackets](Figure_2_Distribution.png)
-
-Figure 3: Burnout Severity Distribution Across Gender Brackets
-
-![Figure 3. Distribution of burnout severity for male and female student cohorts (N = 344 male, 257 female). There was no gender difference in the severity of burnout (χ2 (2) = 2.426, p = .297, Cramer’s V = .063), suggesting behavioural and psychological demands of CGPA pressure, screen time, and sleep deprivation as the main contributors to burnout risk in this cohort rather than gender-specific biological or social vulnerability.](Figure_2_Distribution.png)
-
-Figure 3. Distribution of burnout severity for male and female student cohorts (N = 344 male, 257 female). There was no gender difference in the severity of burnout (χ2 (2) = 2.426, p = .297, Cramer’s V = .063), suggesting behavioural and psychological demands of CGPA pressure, screen time, and sleep deprivation as the main contributors to burnout risk in this cohort rather than gender-specific biological or social vulnerability.
+Figure 3. Distribution of burnout severity for male and female student cohorts (N = 344 male, 257 female). There was no gender difference in the severity of burnout ($\chi^2(2) = 2.426, p = .297$, Cramer’s V = 0.063), suggesting behavioural and psychological demands of CGPA pressure, screen time, and sleep deprivation as the main contributors to burnout risk in this cohort rather than gender-specific biological or social vulnerability.
 
 ### 4.4 Initial Correlational Observations
 
@@ -340,10 +323,7 @@ Table 3 shows the comparative performance of the machine learning algorithms ove
 
 Note: Majority Baseline classifies all instances as Low/Medium Burnout (the majority class). Precision is undefined (no positive predictions). ROC-AUC = 0.50 indicates chance-level discrimination. All ML models substantially exceed this baseline.
 
-Figure 4: Machine Learning Model Predictive Accuracy Comparison
-
-
-Figure 4: Machine Learning Model Predictive Accuracy Comparison
+![Figure 4: Machine Learning Model Predictive Accuracy Comparison](Figure_4_ML_Accuracies.png)
 
 Figure 4. Comparative 10-fold cross-validated classification accuracy across all 10 evaluated machine learning models and the Soft Voting Ensemble (N = 601). Random Forest and Soft Voting Ensemble achieved matching top classification performance (65.89%), closely followed by CatBoost (65.06%) and Logistic Regression (64.39%). All models comfortably exceeded the 57.57% majority-class random baseline.
 
@@ -361,12 +341,9 @@ Detailed Error Analysis (N=601) True Negatives (TN = 285) – 285 of 346 Low/Med
 
 ### 6.3 McNemar Tests for Pairwise Statistical Significance
 
-Pairwise McNemar’s tests on out-of-fold predictions were used to assess statistical significance between classifiers. Importantly, the best performing Random Forest model significantly outperformed the zero-rule majority class baseline of 57.57% ($\chi^2 = 13.96, p = 0.00019, p <.001$), indicating a non-random predictive signal. The Random Forest was also statistically significantly better than the decision tree models based on a single tree ($\chi^2$ = 4.73, p = 0.0297). Similarly, the Soft Voting Ensemble was statistically significantly better than the decision tree models ($\chi^2 = 4.66, p = 0.0308 $). The pairwise comparison between Random Forest and Logistic Regression ($\chi^2 = 0.51, p = 0.4743$), Soft Voting and Logistic Regression ($\chi^2 = 0.55, p = 0.4595$), and Random Forest and CatBoost ($\chi^2 = 0.23, p = 0.6350$) showed no statistically significant difference in their top-tier predictive performance between the ensemble and regularised linear baselines. Figure 5: Out of Fold Confusion Matrix of Champion Random Forest Model
-
+Pairwise McNemar’s tests on out-of-fold predictions were used to assess statistical significance between classifiers. Importantly, the best performing Random Forest model significantly outperformed the zero-rule majority class baseline of 57.57% ($\chi^2 = 13.96, p = 0.00019, p <.001$), indicating a non-random predictive signal. The Random Forest was also statistically significantly better than the decision tree models based on a single tree ($\chi^2 = 4.73, p = 0.0297$). Similarly, the Soft Voting Ensemble was statistically significantly better than the decision tree models ($\chi^2 = 4.66, p = 0.0308$). The pairwise comparison between Random Forest and Logistic Regression ($\chi^2 = 0.51, p = 0.4743$), Soft Voting and Logistic Regression ($\chi^2 = 0.55, p = 0.4595$), and Random Forest and CatBoost ($\chi^2 = 0.23, p = 0.6350$) showed no statistically significant difference in their top-tier predictive performance between the ensemble and regularised linear baselines.
 
 ![Figure 5: Out-of-Fold Confusion Matrix](Figure_5_Confusion_Matrix.png)
-
-Figure 5: Out-of-Fold Confusion Matrix
 
 Figure 5. Out-of-fold confusion matrix for the champion Random Forest model under 10-fold stratified cross-validation (N = 601). At the default classification threshold (th = 0.50), the model correctly identified 111 of 255 High Burnout students (Sensitivity = 43.53%) with high specificity (285 of 346 Low/Medium cases, Specificity = 82.37%). Decision threshold optimization at th = 0.38 improved sensitivity to 71.76% (183/255 True Positives), enabling high-coverage institutional screening at the cost of reduced specificity (56.07%) — a clinically meaningful trade-off for early-warning triage applications.
 
@@ -415,7 +392,11 @@ The SHAP analysis shows a clear structure within the feature space, fundamentall
 
 ### 7.3 Clinical Utility and Interpretation
 
-The XAI analysis provides a useful perspective to understand the student burnout. Thus, burnout in this population is not mediated by fixed traits (such as age or gender) but by dynamic interactions between academic achievement (Academic Performance Index, CGPA), behavioural recovery patterns (Screen-to-Sleep Ratio, Social Media), and psychological distress (Burnout Vulnerability, Strain). Figure 6: Global SHAP feature importance Figure 6: SHAP Global Feature Importance Ranking Fig. 6. SHAP feature importance rankings from the Random Forest model (full-dataset refit, N = 601; fold-by-fold rank stability verified at a Spearman ρ = 0.9856, p <.001). The main burnout indicators were Academic Performance Index (Mean |SHAP| = 0.0388) and CGPA Midpoint (0.0362), indicating the importance of academic-career anxiety in the burnout process. Demographic variables (Gender, Age, Degree Level) contributed insignificantly (Mean |SHAP| < 0.007) indicating that burnout risk is driven by behavioural and academic factors rather than demographic factors.
+The XAI analysis provides a useful perspective to understand student burnout. Thus, burnout in this population is not mediated by fixed traits (such as age or gender) but by dynamic interactions between academic achievement (Academic Performance Index, CGPA), behavioural recovery patterns (Screen-to-Sleep Ratio, Social Media), and psychological distress (Burnout Vulnerability, Strain).
+
+![Figure 6: Global SHAP Feature Importance Ranking](Figure_6_SHAP.png)
+
+Figure 6. SHAP feature importance rankings from the Random Forest model (full-dataset refit, N = 601; fold-by-fold rank stability verified at a Spearman $\rho = 0.9856, p < .001$). The main burnout indicators were Academic Performance Index (Mean |SHAP| = 0.0388) and CGPA Midpoint (0.0362), indicating the importance of academic-career anxiety in the burnout process. Demographic variables (Gender, Age, Degree Level) contributed insignificantly (Mean |SHAP| < 0.007) indicating that burnout risk is driven by behavioural and academic factors rather than demographic factors.
 
 ## 8. Qualitative Analysis: The Experience of Burnout
 

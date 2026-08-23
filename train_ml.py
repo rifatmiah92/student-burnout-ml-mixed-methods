@@ -186,7 +186,7 @@ print("=========================================================================
 rf_probas = oof_probas['Random Forest']
 
 threshold_results = []
-for th in [0.50, 0.45, 0.40, 0.38, 0.35, 0.30]:
+for th in [0.50, 0.45, 0.42, 0.40, 0.38, 0.35, 0.30]:
     th_preds = (rf_probas >= th).astype(int)
     th_cm = confusion_matrix(y_true, th_preds)
     tn, fp, fn, tp = th_cm.ravel()
