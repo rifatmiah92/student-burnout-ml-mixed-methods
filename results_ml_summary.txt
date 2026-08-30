@@ -1,22 +1,26 @@
                        Model  Accuracy  Precision  Recall  F1 Score  ROC-AUC  Time (s)
-               Random Forest    0.6589     0.6453  0.4353    0.5199   0.7126     10.07
-        Soft Voting Ensemble    0.6589     0.6238  0.4941    0.5514   0.7069     10.50
-         CatBoost Classifier    0.6506     0.6087  0.4941    0.5455   0.6983      9.86
-         Logistic Regression    0.6439     0.6000  0.4824    0.5348   0.6819      1.13
-Gradient Boosting Classifier    0.6439     0.5962  0.4980    0.5427   0.6922      7.60
-Support Vector Machine (SVM)    0.6356     0.6154  0.3765    0.4672   0.6708      3.09
-      Extra Trees Classifier    0.6356     0.6139  0.3804    0.4697   0.6997      5.56
-                    LightGBM    0.6339     0.5785  0.5059    0.5397   0.6898      4.89
-          XGBoost Classifier    0.6240     0.5644  0.4980    0.5292   0.6832      2.71
-               Decision Tree    0.6140     0.5628  0.4039    0.4703   0.6403      0.74
- Multilayer Perceptron (MLP)    0.6040     0.5359  0.4980    0.5163   0.6474     25.23
+               Random Forest    0.6589     0.6453  0.4353    0.5199   0.7126      8.76
+        Soft Voting Ensemble    0.6589     0.6238  0.4941    0.5514   0.7069      0.00
+         CatBoost Classifier    0.6506     0.6087  0.4941    0.5455   0.6983      9.43
+         Logistic Regression    0.6439     0.6000  0.4824    0.5348   0.6819      0.93
+Gradient Boosting Classifier    0.6439     0.5962  0.4980    0.5427   0.6922      6.72
+Support Vector Machine (SVM)    0.6356     0.6154  0.3765    0.4672   0.6708      2.61
+      Extra Trees Classifier    0.6356     0.6139  0.3804    0.4697   0.6997      4.81
+                    LightGBM    0.6339     0.5785  0.5059    0.5397   0.6898      3.41
+          XGBoost Classifier    0.6240     0.5644  0.4980    0.5292   0.6832      2.45
+               Decision Tree    0.6140     0.5628  0.4039    0.4703   0.6403      0.67
+ Multilayer Perceptron (MLP)    0.6040     0.5359  0.4980    0.5163   0.6474     21.57
 
 =====================================================================================
 MCNEMAR SIGNIFICANCE COMPARISONS
 =====================================================================================
-Pair: Random Forest vs Majority Baseline -> McNemar Chi2: 13.9593, p-value: 0.000187 (Statistically Significant (p < 0.05))
-Pair: Random Forest vs Logistic Regression -> McNemar Chi2: 0.5120, p-value: 0.474274 (Not Significant (p >= 0.05))
-Pair: Soft Voting Ensemble vs Logistic Regression -> McNemar Chi2: 0.5470, p-value: 0.459543 (Not Significant (p >= 0.05))
-Pair: Random Forest vs Decision Tree -> McNemar Chi2: 4.7273, p-value: 0.029688 (Statistically Significant (p < 0.05))
-Pair: Soft Voting Ensemble vs Decision Tree -> McNemar Chi2: 4.6621, p-value: 0.030836 (Statistically Significant (p < 0.05))
-Pair: Random Forest vs CatBoost Classifier -> McNemar Chi2: 0.2254, p-value: 0.634992 (Not Significant (p >= 0.05))
+Pair: Random Forest vs Majority Baseline -> b=61, c=111, McNemar Chi2: 13.9593, p-value: 0.000187 (Statistically Significant (p < 0.05))
+Pair: Soft Voting Ensemble vs Majority Baseline -> b=76, c=126, McNemar Chi2: 11.8861, p-value: 0.000566 (Statistically Significant (p < 0.05))
+Pair: Random Forest vs Decision Tree -> b=58, c=85, McNemar Chi2: 4.7273, p-value: 0.029688 (Statistically Significant (p < 0.05))
+Pair: Soft Voting Ensemble vs Decision Tree -> b=59, c=86, McNemar Chi2: 4.6621, p-value: 0.030836 (Statistically Significant (p < 0.05))
+Pair: Logistic Regression vs Decision Tree -> b=73, c=91, McNemar Chi2: 1.7622, p-value: 0.184351 (Not Significant (p >= 0.05))
+Pair: Random Forest vs Logistic Regression -> b=58, c=67, McNemar Chi2: 0.5120, p-value: 0.474274 (Not Significant (p >= 0.05))
+Pair: Soft Voting Ensemble vs Logistic Regression -> b=54, c=63, McNemar Chi2: 0.5470, p-value: 0.459543 (Not Significant (p >= 0.05))
+Pair: Soft Voting Ensemble vs Random Forest -> b=29, c=29, McNemar Chi2: 0.0172, p-value: 0.895533 (Not Significant (p >= 0.05))
+Pair: CatBoost Classifier vs Logistic Regression -> b=63, c=67, McNemar Chi2: 0.0692, p-value: 0.792460 (Not Significant (p >= 0.05))
+Pair: Random Forest vs CatBoost Classifier -> b=33, c=38, McNemar Chi2: 0.2254, p-value: 0.634992 (Not Significant (p >= 0.05))

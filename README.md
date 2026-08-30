@@ -4,6 +4,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Reproducibility: 100%](https://img.shields.io/badge/reproducibility-100%25-brightgreen.svg)]()
 [![Methodology: QUAN%E2%86%92QUAL](https://img.shields.io/badge/mixed--methods-QUAN%E2%86%92QUAL-purple.svg)]()
+[![Live Web Portal: Netlify](https://img.shields.io/badge/Live%20App-Burnout%20Radar-orange.svg)](https://burnoutwebapplication.netlify.app/)
+
+> 🌐 **Live Web Application (Burnout Radar):** [https://burnoutwebapplication.netlify.app/](https://burnoutwebapplication.netlify.app/)  
+> 💻 **Web Application Source Repository:** [https://github.com/rifatmiah92/Burnout-web-application](https://github.com/rifatmiah92/Burnout-web-application)
 
 This repository contains the complete primary dataset, feature engineering pipeline, machine learning modeling codebase, Explainable AI (SHAP) evaluation scripts, anonymized qualitative interview transcripts, and manuscript sources for the study:
 
@@ -108,7 +112,7 @@ python generate_graphs.py
 
 ## 📜 Citation & Ethical Statement
 
-This study was conducted in accordance with the Declaration of Helsinki. Because the research involved a non-invasive, minimal-risk observational survey ($N=601$) and voluntary interviews ($N=20$) with adult university students, formal institutional ethics committee review was exempt under institutional guidelines for minimal-risk educational data research. Informed electronic consent was explicitly obtained from all survey and qualitative participants prior to participation.
+This study was conducted in accordance with the Declaration of Helsinki. Because the research involved a non-invasive, minimal-risk observational survey ($N=601$) and voluntary interviews ($N=20$) with enrolled university students (including a freshman transition bracket aged 17–18 years), formal institutional ethics committee review was exempt under institutional guidelines for minimal-risk educational data research. Informed electronic consent was explicitly obtained from all survey and qualitative participants prior to participation.
 
 If you use this dataset or codebase in your research, please cite:
 

@@ -4,8 +4,8 @@
 
 This study was conducted in accordance with the ethical principles outlined in the **Declaration of Helsinki** for research involving human participants.
 
-- **Study Design:** Minimal-risk observational cross-sectional survey ($N = 601$) and voluntary semi-structured qualitative interviews ($N = 20$).
-- **Target Population:** Adult university students (aged 18 years or older) in Bangladesh.
+- **Study Design:** Minimal-risk observational cross-sectional survey ($N = 601$) and voluntary semi-structured/structured qualitative interviews ($N = 20$).
+- **Target Population:** Enrolled university students in Bangladesh. The cohort reflects traditional university age distributions across all years of study, with the youngest bracket designated as "17–18 years" ($n = 56, 9.32\%$) representing first-year undergraduate students transitioning into tertiary education following Higher Secondary Certificate (HSC) completion. All participants were actively enrolled university students.
 - **Ethics Exemption Status:** Because the research involved non-invasive, voluntary survey completion and anonymized interviews presenting minimal psychological risk, formal institutional ethics committee review was exempt under institutional guidelines for minimal-risk educational data research.
 
 ---

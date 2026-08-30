@@ -38,7 +38,7 @@ num_cols = [c for c in X.columns if c not in cat_cols]
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', StandardScaler(), num_cols),
-        ('cat', OneHotEncoder(handle_unknown='ignore', drop='first'), cat_cols)
+        ('cat', OneHotEncoder(handle_unknown='ignore', drop='first', sparse_output=False), cat_cols)
     ]
 )
 
@@ -92,8 +92,10 @@ for name, clf in models.items():
     })
 
 # Genuine Soft Voting Ensemble of top models
+sve_start = time.time()
 top_probas = (oof_probas['Random Forest'] + oof_probas['Gradient Boosting Classifier'] + oof_probas['LightGBM'] + oof_probas['Logistic Regression'] + oof_probas['CatBoost Classifier']) / 5.0
 top_preds = (top_probas >= 0.5).astype(int)
+sve_elapsed = round(time.time() - sve_start, 2)
 
 oof_preds['Soft Voting Ensemble'] = top_preds
 oof_probas['Soft Voting Ensemble'] = top_probas
@@ -105,7 +107,7 @@ results.append({
     'Recall': round(recall_score(y_true, top_preds), 4),
     'F1 Score': round(f1_score(y_true, top_preds), 4),
     'ROC-AUC': round(roc_auc_score(y_true, top_probas), 4),
-    'Time (s)': 10.50
+    'Time (s)': sve_elapsed
 })
 
 res_df = pd.DataFrame(results).sort_values(by='Accuracy', ascending=False)
@@ -139,11 +141,11 @@ def calculate_mcnemar(y_true, preds_a, preds_b):
     c = np.sum(correct_a & ~correct_b) # Correct by A, misclassified by B
     
     if (b + c) == 0:
-        return 0.0, 1.0
+        return b, c, 0.0, 1.0
         
     stat = ((abs(b - c) - 1)**2) / (b + c)
     p_val = chi2.sf(stat, df=1)
-    return stat, p_val
+    return b, c, stat, p_val
 
 # Add majority baseline predictions (all 0s)
 oof_preds['Majority Baseline'] = np.zeros_like(y_true)
@@ -153,18 +155,22 @@ print("PAIRWISE MCNEMAR'S TEST SIGNIFICANCE COMPARISONS")
 print("=====================================================================================")
 pairs_to_test = [
     ('Random Forest', 'Majority Baseline'),
-    ('Random Forest', 'Logistic Regression'),
-    ('Soft Voting Ensemble', 'Logistic Regression'),
+    ('Soft Voting Ensemble', 'Majority Baseline'),
     ('Random Forest', 'Decision Tree'),
     ('Soft Voting Ensemble', 'Decision Tree'),
+    ('Logistic Regression', 'Decision Tree'),
+    ('Random Forest', 'Logistic Regression'),
+    ('Soft Voting Ensemble', 'Logistic Regression'),
+    ('Soft Voting Ensemble', 'Random Forest'),
+    ('CatBoost Classifier', 'Logistic Regression'),
     ('Random Forest', 'CatBoost Classifier')
 ]
 
 mcnemar_summary = []
 for m1, m2 in pairs_to_test:
-    stat, p = calculate_mcnemar(y_true, oof_preds[m1], oof_preds[m2])
+    b, c, stat, p = calculate_mcnemar(y_true, oof_preds[m1], oof_preds[m2])
     sig = "Statistically Significant (p < 0.05)" if p < 0.05 else "Not Significant (p >= 0.05)"
-    out_str = f"Pair: {m1} vs {m2} -> McNemar Chi2: {stat:.4f}, p-value: {p:.6f} ({sig})"
+    out_str = f"Pair: {m1} vs {m2} -> b={b}, c={c}, McNemar Chi2: {stat:.4f}, p-value: {p:.6f} ({sig})"
     print(out_str)
     mcnemar_summary.append(out_str)
 

@@ -30,8 +30,9 @@ def add_formatted_text(paragraph, text, base_bold=False, base_color=None, base_s
     - <sub>...</sub> -> Subscript
     - **...**       -> Bold
     - *...*         -> Italic
+    - `...`         -> Monospace / Code font (Consolas) without literal backticks
     """
-    pattern = re.compile(r'(<sup>.*?</sup>|<sub>.*?</sub>|\*\*.*?\*\*|\*.*?\*)')
+    pattern = re.compile(r'(<sup>.*?</sup>|<sub>.*?</sub>|\*\*.*?\*\*|(?<!\*)\*[^*]+?\*(?!\*)|`[^`]+?`)')
     parts = pattern.split(text)
     
     for part in parts:
@@ -50,6 +51,20 @@ def add_formatted_text(paragraph, text, base_bold=False, base_color=None, base_s
             r.font.subscript = True
             if base_bold: r.font.bold = True
             if base_color: r.font.color.rgb = base_color
+            if base_size: r.font.size = base_size
+        elif part.startswith('`') and part.endswith('`') and len(part) >= 2:
+            content = part[1:-1]
+            r = paragraph.add_run(content)
+            r.font.name = 'Consolas'
+            rPr = r._r.get_or_add_rPr()
+            rFonts = OxmlElement('w:rFonts')
+            rFonts.set(qn('w:ascii'), 'Consolas')
+            rFonts.set(qn('w:hAnsi'), 'Consolas')
+            rFonts.set(qn('w:cs'), 'Consolas')
+            rPr.append(rFonts)
+            if base_bold: r.font.bold = True
+            if base_color: r.font.color.rgb = base_color
+            else: r.font.color.rgb = RGBColor(30, 41, 59)
             if base_size: r.font.size = base_size
         elif part.startswith('**') and part.endswith('**'):
             content = part[2:-2]
@@ -207,19 +222,37 @@ while i < n:
             p_space.paragraph_format.space_after = Pt(6)
         continue
 
-    # Regular Paragraph / Bullet Points
+    # Regular Paragraph / Bullet Points / Blockquotes
     line_str = line.strip()
     if line_str:
-        if line_str.startswith('- ') or line_str.startswith('* '):
+        # Check if this is a Reference entry (e.g. [1] Author...)
+        ref_match = re.match(r'^\[(\d+)\]\s+(.*)', line_str)
+        if ref_match:
+            p = doc.add_paragraph()
+            p.paragraph_format.left_indent = Inches(0.3)
+            p.paragraph_format.first_line_indent = Inches(-0.3)
+            p.paragraph_format.space_after = Pt(4)
+            p.paragraph_format.line_spacing = 1.15
+            add_formatted_text(p, line_str)
+        elif line_str.startswith('- ') or line_str.startswith('* ') or line_str.startswith('• '):
             p = doc.add_paragraph(style='List Bullet')
             text_content = line_str[2:].strip()
+            p.paragraph_format.space_after = Pt(4)
+            p.paragraph_format.line_spacing = 1.15
+            add_formatted_text(p, text_content)
+        elif line_str.startswith('>'):
+            p = doc.add_paragraph()
+            p.paragraph_format.left_indent = Inches(0.3)
+            text_content = re.sub(r'^>\s*', '', line_str).strip()
+            p.paragraph_format.space_after = Pt(4)
+            p.paragraph_format.line_spacing = 1.15
+            add_formatted_text(p, text_content)
         else:
             p = doc.add_paragraph()
-            text_content = line_str
-        
-        p.paragraph_format.space_after = Pt(4)
-        p.paragraph_format.line_spacing = 1.15
-        add_formatted_text(p, text_content)
+            text_content = re.sub(r'(?<!\w)>\s*', '', line_str).strip()
+            p.paragraph_format.space_after = Pt(4)
+            p.paragraph_format.line_spacing = 1.15
+            add_formatted_text(p, text_content)
     i += 1
 
 output_file = 'Manuscript_Student_Burnout.docx'

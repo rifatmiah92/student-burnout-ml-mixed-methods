@@ -42,7 +42,7 @@ def evaluate_subgroup_split(train_df, test_df, split_name):
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', StandardScaler(), num_cols),
-            ('cat', OneHotEncoder(handle_unknown='ignore', drop='first'), cat_cols)
+            ('cat', OneHotEncoder(handle_unknown='ignore', drop='first', sparse_output=False), cat_cols)
         ]
     )
     
