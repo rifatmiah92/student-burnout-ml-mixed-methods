@@ -1,4 +1,4 @@
-# ETHICS EXEMPTION / INSTITUTIONAL APPROVAL LETTER
+﻿# ETHICS EXEMPTION / INSTITUTIONAL APPROVAL LETTER
 ## Template — Presidency University, Dhaka
 
 ---
@@ -32,7 +32,7 @@ RE: Research Study — "Explainable Machine Learning for Student Burnout
 Classification and Risk Stratification: A Mixed-Methods Study with
 Qualitative Triangulation"
 
-Researcher: Rifat Miah (Email: rifatmiah1992003@gmail.com)
+Researcher: Rifat Miah (Email: 242370038@student.presidency.edu.bd)
 Research Supervisor: Dr. A.S.M. Shihavuddin (Email: shihav@eee.green.edu.bd)
 Department: Computer Science and Engineering
 Affiliation: Presidency University, Dhaka-1212, Bangladesh

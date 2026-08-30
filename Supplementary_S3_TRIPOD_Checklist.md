@@ -1,13 +1,13 @@
-# Supplementary Material S3
+﻿# Supplementary Material S3
 ## TRIPOD Checklist — Transparent Reporting of a Multivariable Prediction Model
 ### for Individual Prognosis Or Diagnosis (TRIPOD) Statement
 ### Collins et al. (2015) — 22-Item Checklist for Prediction Model Development Studies
 
 **Paper Title:** Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation
 
-**Authors:** Rifat Miah (rifatmiah1992003@gmail.com), Dr. A.S.M. Shihavuddin (shihav@eee.green.edu.bd)
+**Authors:** Rifat Miah (242370038@student.presidency.edu.bd), Dr. A.S.M. Shihavuddin (shihav@eee.green.edu.bd)
 
-**Corresponding Author:** Rifat Miah (Email: rifatmiah1992003@gmail.com), Department of Computer Science and Engineering, Presidency University, Dhaka 1212, Bangladesh (Institutional Contact: info@pu.edu.bd)
+**Corresponding Author:** Rifat Miah (Email: 242370038@student.presidency.edu.bd), Department of Computer Science and Engineering, Presidency University, Dhaka 1212, Bangladesh (Institutional Contact: info@pu.edu.bd)
 
 **Model Type:** Classification (Prediction Model Development — 10-Fold Stratified Cross-Validation)
 

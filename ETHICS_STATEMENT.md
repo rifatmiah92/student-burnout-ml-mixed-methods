@@ -1,8 +1,8 @@
-# Institutional Ethics & Participant Consent Statement
+﻿# Institutional Ethics & Participant Consent Statement
 
 **Study:** Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation
 
-**Corresponding Author:** Rifat Miah (Email: rifatmiah1992003@gmail.com)
+**Corresponding Author:** Rifat Miah (Email: 242370038@student.presidency.edu.bd)
 **Co-Author / Research Supervisor:** Dr. A.S.M. Shihavuddin (Email: shihav@eee.green.edu.bd)
 **Institutional Affiliation:** Department of Computer Science and Engineering, Presidency University, Dhaka-1212, Bangladesh (Institutional Email: info@pu.edu.bd)
 
@@ -17,7 +17,7 @@ This study was conducted in accordance with the ethical principles outlined in t
 - **Target Population:** Enrolled university students in Bangladesh across 11 institutions (8 private universities, 1 public university, 2 National University-affiliated colleges). All participants were verified adult enrolled university students (18+ years).
 - **Ethics Exemption Status:** The study was determined to be **exempt from formal ethics committee review** under the criteria applicable to low-risk, non-interventional, observational educational research. Ethics oversight is attributed to the **Department of Computer Science and Engineering, Presidency University, Dhaka-1212, Bangladesh**.
 
-*Ethics exemption documentation is available from the corresponding author (rifatmiah1992003@gmail.com) upon reasonable request.*
+*Ethics exemption documentation is available from the corresponding author (242370038@student.presidency.edu.bd upon reasonable request.*
 
 ---
 

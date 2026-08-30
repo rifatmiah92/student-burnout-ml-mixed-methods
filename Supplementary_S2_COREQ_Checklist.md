@@ -1,12 +1,12 @@
-# Supplementary Material S2
+﻿# Supplementary Material S2
 ## COREQ (Consolidated Criteria for Reporting Qualitative Research) Checklist
 ### 32-Item Checklist — Tong et al. (2007)
 
 **Paper Title:** Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation
 
-**Authors:** Rifat Miah (rifatmiah1992003@gmail.com), Dr. A.S.M. Shihavuddin (shihav@eee.green.edu.bd)
+**Authors:** Rifat Miah (242370038@student.presidency.edu.bd), Dr. A.S.M. Shihavuddin (shihav@eee.green.edu.bd)
 
-**Corresponding Author:** Rifat Miah (Email: rifatmiah1992003@gmail.com), Department of Computer Science and Engineering, Presidency University, Dhaka 1212, Bangladesh (Institutional Contact: info@pu.edu.bd)
+**Corresponding Author:** Rifat Miah (Email: 242370038@student.presidency.edu.bd), Department of Computer Science and Engineering, Presidency University, Dhaka 1212, Bangladesh (Institutional Contact: info@pu.edu.bd)
 
 ---
 
