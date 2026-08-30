@@ -256,10 +256,13 @@ while i < n:
     i += 1
 
 output_file = 'Manuscript_Student_Burnout.docx'
+backup_file = 'Manuscript_Student_Burnout_Updated.docx'
 
 try:
     doc.save(output_file)
     print(f"Word document synchronized: '{output_file}'")
 except PermissionError:
-    print(f"Main file '{output_file}' is open in Word.")
+    print(f"Main file '{output_file}' is currently open in Word.")
+    doc.save(backup_file)
+    print(f"Saved updated copy to: '{backup_file}'")
 
