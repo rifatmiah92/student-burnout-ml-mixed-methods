@@ -1,133 +1,168 @@
-# Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation
+# Explainable Machine Learning for Student Burnout Classification and Risk Stratification
+
+### A Mixed-Methods Study with Qualitative Triangulation
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Reproducibility: 100%](https://img.shields.io/badge/reproducibility-100%25-brightgreen.svg)]()
-[![Methodology: QUAN%E2%86%92QUAL](https://img.shields.io/badge/mixed--methods-QUAN%E2%86%92QUAL-purple.svg)]()
-[![Live Web Portal: Netlify](https://img.shields.io/badge/Live%20App-Burnout%20Radar-orange.svg)](https://burnoutwebapplication.netlify.app/)
+[![Mixed Methods: QUAN→QUAL](https://img.shields.io/badge/mixed--methods-QUAN%E2%86%92QUAL-purple.svg)]()
+[![Live App](https://img.shields.io/badge/Live%20App-Burnout%20Radar-orange.svg)](https://burnoutwebapplication.netlify.app/)
 
-> 🌐 **Live Web Application (Burnout Radar):** [https://burnoutwebapplication.netlify.app/](https://burnoutwebapplication.netlify.app/)  
-> 💻 **Web Application Source Repository:** [https://github.com/rifatmiah92/Burnout-web-application](https://github.com/rifatmiah92/Burnout-web-application)
-
-This repository contains the complete primary dataset, feature engineering pipeline, machine learning modeling codebase, Explainable AI (SHAP) evaluation scripts, anonymized qualitative interview transcripts, and manuscript sources for the study:
-
-> **"Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation"**  
-> **Authors:** Rifat Miah$^{1,*}$ and Dr. A.S.M. Shihavuddin$^{2}$  
-> $^{1}$ Department of Computer Science and Engineering, Presidency University, Dhaka 1212, Bangladesh  
-> $^{2}$ Department of Electrical and Electronic Engineering, Green University of Bangladesh, Dhaka 1207, Bangladesh  
-> $^{*}$ Corresponding Author: `rifatmiah1992003@gmail.com`
+**Live Web Application (Burnout Radar):** [https://burnoutwebapplication.netlify.app/](https://burnoutwebapplication.netlify.app/)  
+**Web App Source Repository:** [https://github.com/rifatmiah92/Burnout-web-application](https://github.com/rifatmiah92/Burnout-web-application)
 
 ---
 
-## 📌 Abstract Overview
+**Authors:** Rifat Miah<sup>1,*</sup> · Dr. A.S.M. Shihavuddin<sup>2</sup>
 
-Academic burnout is a growing mental health concern in higher education, disproportionately affecting undergraduates in resource-constrained South Asian universities. This study employs an **explanatory sequential mixed-methods design (QUAN → QUAL)** on a primary cross-sectional dataset of $N = 601$ Bangladeshi undergraduates. 
-
-1. **Quantitative Phase (QUAN):** Ten supervised machine learning classifiers and a Soft Voting Ensemble were evaluated under **10-fold stratified cross-validation** alongside nine domain-engineered composite features operationalizing Conservation of Resources (COR) and Job Demands-Resources (JD-R) theoretical constructs. Random Forest achieved top classification performance (Accuracy = 65.89%, ROC-AUC = 0.7126) — a statistically meaningful ~8.3 percentage-point improvement over the 57.57% majority baseline (McNemar $p < .001$).
-2. **Explainable AI (SHAP):** SHAP global feature importances identified academic performance index, CGPA midpoint, and screen-to-sleep ratio as dominant burnout predictors, while demographic features contributed negligibly (mean $|SHAP| < 0.007$).
-3. **Qualitative Phase (QUAL):** Semi-structured interviews ($N = 20$ participants purposively selected across survey burnout tiers) were analyzed via reflexive thematic analysis (Braun & Clarke framework, 25% back-translation audit, Cohen's $\kappa = 0.82$ inter-rater reliability) to explain, contextualize, and elaborate upon computational predictions.
+<sup>1</sup> Department of Computer Science and Engineering, Presidency University, Dhaka-1212, Bangladesh  
+<sup>2</sup> Department of Electrical and Electronic Engineering, Green University of Bangladesh, Dhaka-1207, Bangladesh  
+<sup>*</sup> Corresponding author: rifatmiah1992003@gmail.com
 
 ---
 
-## 📂 Repository Structure
+## Overview
+
+This repository accompanies our mixed-methods research study investigating academic burnout among Bangladeshi university students. The work combines a large-scale supervised machine learning analysis with in-depth qualitative interviewing, aiming to understand not just *whether* burnout can be predicted, but *why* it occurs — from the students' own perspectives.
+
+The full research pipeline is here: raw survey data, all preprocessing and feature engineering code, machine learning training and evaluation scripts, SHAP explainability analysis, anonymized qualitative interview transcripts, and the manuscript itself.
+
+---
+
+## What This Study Does
+
+Most burnout studies either rely on simple questionnaire scoring or black-box ML models without any attempt at human explanation. We tried to do something more rigorous on both ends.
+
+On the quantitative side, we collected primary survey data from 601 students across 11 Bangladeshi universities (8 private, 1 public, 2 National University colleges), trained and evaluated 10 classification algorithms under nested 10-fold cross-validation with strict data leakage controls, and optimized decision thresholds for clinical sensitivity. Rather than using raw questionnaire items directly, we engineered nine theoretically grounded composite features derived from Conservation of Resources (COR) and Job Demands–Resources (JD-R) frameworks — things like sleep deprivation index, screen-to-sleep ratio, and burnout vulnerability index.
+
+On the qualitative side, we purposively selected 20 participants representing all burnout severity tiers, conducted semi-structured interviews, and ran reflexive thematic analysis (Braun & Clarke framework) with 25% back-translation audit and independent inter-rater verification (Cohen's κ = 0.82). The qualitative findings were used to contextualise and explain the computational patterns — not as an afterthought, but as a core part of the design.
+
+---
+
+## Key Results
+
+| Model | Accuracy | Precision | Recall | F1 | ROC-AUC |
+|---|---|---|---|---|---|
+| **Random Forest** | **65.89%** | **64.53%** | **43.53%** | **51.99%** | **0.7126** |
+| Soft Voting Ensemble | 65.89% | 62.38% | 49.41% | 55.14% | 0.7069 |
+| CatBoost | 65.06% | 60.87% | 49.41% | 54.55% | 0.6983 |
+| Gradient Boosting | 64.39% | 59.62% | 49.80% | 54.27% | 0.6922 |
+| Logistic Regression | 64.39% | 60.00% | 48.24% | 53.48% | 0.6819 |
+| XGBoost | 62.40% | 56.44% | 49.80% | 52.92% | 0.6832 |
+| Decision Tree | 61.40% | 56.28% | 40.39% | 47.03% | 0.6403 |
+| *Majority Baseline* | *57.57%* | *—* | *0.00%* | *0.00%* | *0.500* |
+
+Random Forest was the champion model. Compared to the majority-class baseline (57.57%), it achieved an 8.3 percentage-point improvement that is statistically significant (McNemar χ² = 13.96, *p* < .001). Nested cross-validation confirmed this result is not inflated (nested CV accuracy: 65.56%).
+
+**Top SHAP predictors:** Academic performance index, CGPA bracket, screen-to-sleep ratio, and burnout vulnerability index — demographic variables (gender, age group) contributed minimally (mean |SHAP| < 0.007), which challenges assumptions that burnout is primarily demographics-driven.
+
+At the calibrated decision threshold (θ = 0.38), sensitivity reached 71.76%, making the model practical for early-warning screening.
+
+---
+
+## Repository Contents
 
 ```
 .
-├── Manuscript_Student_Burnout.md             # Complete manuscript source (Markdown)
-├── Manuscript_Student_Burnout.docx           # Publication-ready Word document (Formatted)
-├── Quantitative_Survey_Data.xlsx             # Primary survey dataset (N = 601)
-├── Qualitative_Interview_Transcripts_Anonymized.pdf # De-identified qualitative transcripts (N = 20)
-├── requirements.txt                          # Pinned dependency environment for 100% reproducibility
-├── feature_engineering.py                    # Modular feature engineering pipeline (9 composite indices)
-├── train_ml.py                               # 10-fold CV ML benchmarking & threshold optimization script
-├── run_shap.py                               # SHAP global & local interpretability script
-├── generate_flowchart.py                     # Flowchart generator (Figure 1)
-├── generate_graphs.py                        # High-resolution figure generator (Figures 2-6)
-├── pseudo_external_validation.py             # Subgroup pseudo-external validation script
-├── convert_md_to_docx.py                     # Markdown-to-Docx converter script
-├── Figure_1_Workflow.png                     # End-to-end methodology flowchart (600 DPI)
-├── Figure_2_Distribution.png                 # Target variable severity distribution
-├── Figure_3_Gender.png                       # Gender distribution across burnout levels
-├── Figure_4_ML_Accuracies.png                # Model accuracy comparison benchmark
-├── Figure_5_Confusion_Matrix.png             # Champion Random Forest confusion matrix
-├── Figure_6_SHAP.png                         # SHAP global feature importance ranking
-├── results_ml_summary.txt                    # Raw numerical cross-validation benchmark log
-├── results_confusion_matrix.txt              # Champion model confusion matrix log
-├── results_shap_importance.txt               # Raw SHAP numerical feature importances
-└── results_pseudo_external.txt               # Cross-degree subgroup validation log
+├── Manuscript_Student_Burnout.docx           # Full formatted manuscript (Word)
+├── Quantitative_Survey_Data.xlsx             # Primary survey dataset (N = 601, fully anonymised)
+├── Qualitative_Interview_Transcripts_Anonymized.pdf  # De-identified interview transcripts (N = 20)
+├── Supplementary_S2_COREQ_Checklist.pdf      # COREQ reporting checklist for qualitative strand
+├── Supplementary_S3_TRIPOD_Checklist.pdf     # TRIPOD reporting checklist for prediction model
+├── ETHICS_STATEMENT_2.docx                   # Institutional ethics and participant consent statement
+│
+├── feature_engineering.py      # Canonical composite feature computation (9 indices)
+├── train_ml.py                 # 10-fold CV benchmarking across 11 models + threshold tuning
+├── run_shap.py                 # SHAP global importance + fold-by-fold stability verification
+├── run_nested_cv.py            # Nested CV for unbiased hyperparameter tuning
+├── pseudo_external_validation.py  # Cross-degree subgroup validation (bachelor vs postgrad)
+├── export_model_to_js.py       # Exports trained RF + LR models to JSON for web app
+├── generate_graphs.py          # High-resolution figures (Figures 2–6)
+├── generate_flowchart.py       # Methodology flowchart (Figure 1)
+│
+├── results_ml_summary.txt      # Raw CV benchmark output
+├── results_nested_cv.txt       # Nested CV results
+├── results_shap_importance.txt # SHAP importance values + Spearman stability rho
+├── results_pseudo_external.txt # Cross-subgroup validation output
+│
+├── Figure_1_Workflow.png       # End-to-end research methodology flowchart
+├── Figure_2_Distribution.png   # Burnout severity distribution across sample
+├── Figure_3_Gender.png         # Gender breakdown across burnout tiers
+├── Figure_4_ML_Accuracies.png  # Model comparison bar chart
+├── Figure_5_Confusion_Matrix.png  # Random Forest confusion matrix (θ = 0.38)
+├── Figure_6_SHAP.png           # Global SHAP feature importance ranking
+│
+├── webapp/                     # Interactive client-side screening tool (zero server)
+├── requirements.txt            # Pinned dependencies for exact reproducibility
+└── LICENSE                     # MIT License
 ```
 
 ---
 
-## 📊 Benchmark Machine Learning Results
+## Running the Code
 
-Evaluated under 10-Fold Stratified Cross-Validation ($N = 601$, fixed `random_state=42`):
+Clone and set up the environment:
 
-| Model / Algorithm | Accuracy | Precision | Recall | F1-Score | ROC-AUC | Time (s) |
-|---|---|---|---|---|---|---|
-| **Random Forest** | **0.6589** | **0.6453** | **0.4353** | **0.5199** | **0.7126** | **10.99** |
-| **Soft Voting Ensemble** | 0.6589 | 0.6238 | 0.4941 | 0.5514 | 0.7069 | 10.50 |
-| CatBoost Classifier | 0.6506 | 0.6087 | 0.4941 | 0.5455 | 0.6983 | 11.46 |
-| Logistic Regression | 0.6439 | 0.6000 | 0.4824 | 0.5348 | 0.6819 | 1.17 |
-| Gradient Boosting | 0.6439 | 0.5962 | 0.4980 | 0.5427 | 0.6922 | 8.07 |
-| Extra Trees Classifier | 0.6356 | 0.6139 | 0.3804 | 0.4697 | 0.6997 | 6.30 |
-| Support Vector Machine (SVM) | 0.6356 | 0.6154 | 0.3765 | 0.4672 | 0.6708 | 3.38 |
-| LightGBM | 0.6339 | 0.5785 | 0.5059 | 0.5397 | 0.6898 | 4.84 |
-| XGBoost Classifier | 0.6240 | 0.5644 | 0.4980 | 0.5292 | 0.6832 | 10.11 |
-| Decision Tree | 0.6140 | 0.5628 | 0.4039 | 0.4703 | 0.6403 | 1.06 |
-| Multilayer Perceptron (MLP) | 0.6040 | 0.5359 | 0.4980 | 0.5163 | 0.6474 | 28.29 |
-| **Majority Baseline** | **0.5757** | **—** | **0.0000** | **0.0000** | **0.5000** | **—** |
-
----
-
-## ⚡ Quick Start & Reproducibility Guide
-
-### 1. Environment Setup
-Clone the repository and install the exact verified dependencies:
 ```bash
 git clone https://github.com/rifatmiah92/student-burnout-ml-mixed-methods.git
 cd student-burnout-ml-mixed-methods
 pip install -r requirements.txt
 ```
 
-### 2. Execute Machine Learning Training & Evaluation
-Run 10-fold stratified cross-validation across all 10 models and decision threshold optimization:
+Run the full ML benchmark:
+
 ```bash
 python train_ml.py
 ```
 
-### 3. Compute SHAP Feature Importance & Visualizations
-Generate global and local SHAP attributions:
+Compute SHAP feature importances:
+
 ```bash
 python run_shap.py
 ```
 
-### 4. Regenerate High-Resolution Figures & Flowcharts
+Pseudo-external cross-subgroup validation:
+
+```bash
+python pseudo_external_validation.py
+```
+
+Regenerate figures:
+
 ```bash
 python generate_flowchart.py
 python generate_graphs.py
 ```
 
+All scripts read from `Quantitative_Survey_Data.xlsx` and write results to the corresponding `results_*.txt` files. Feature engineering is centralised in `feature_engineering.py` — both the Python pipeline and the JavaScript web app use the exact same mathematical formulas to ensure consistency.
+
 ---
 
-## 📜 Citation & Ethical Statement
+## Ethics and Data Availability
 
-This study was conducted in accordance with the Declaration of Helsinki. Because the research involved a non-invasive, minimal-risk observational survey ($N=601$) and voluntary interviews ($N=20$) with enrolled university students (including a freshman transition bracket aged 17–18 years), formal institutional ethics committee review was exempt under institutional guidelines for minimal-risk educational data research. Informed electronic consent was explicitly obtained from all survey and qualitative participants prior to participation.
+This study was conducted in accordance with the Declaration of Helsinki. The research involved a non-invasive, minimal-risk cross-sectional survey and voluntary semi-structured interviews with enrolled university students. Formal ethics committee review was exempt under institutional guidelines for low-risk educational data research. Written informed electronic consent was obtained from all participants prior to data collection.
 
-If you use this dataset or codebase in your research, please cite:
+All survey data in this repository has been fully de-identified. Qualitative transcripts use standardised pseudonyms (P1–P20, Private University A–H, etc.). No personally identifiable information appears anywhere in the public files.
+
+---
+
+## Citation
+
+If you use this dataset, code, or findings in your own work, please cite:
 
 ```bibtex
 @article{miah2026burnout,
-  title={Explainable Machine Learning for Student Burnout Classification and Risk Stratification: A Mixed-Methods Study with Qualitative Triangulation},
-  author={Miah, Rifat and Shihavuddin, A.S.M.},
-  journal={Educational Data Mining \& Mental Health Informatics},
-  year={2026},
-  publisher={GitHub Repository},
-  url={https://github.com/rifatmiah92/student-burnout-ml-mixed-methods}
+  title   = {Explainable Machine Learning for Student Burnout Classification 
+             and Risk Stratification: A Mixed-Methods Study with 
+             Qualitative Triangulation},
+  author  = {Miah, Rifat and Shihavuddin, A.S.M.},
+  year    = {2026},
+  url     = {https://github.com/rifatmiah92/student-burnout-ml-mixed-methods}
 }
 ```
 
 ---
 
-## 📄 License
-This repository is open-sourced under the **MIT License**.
+## License
+
+This repository is released under the MIT License. See `LICENSE` for details.
