@@ -1,6 +1,12 @@
 # Exact Reproducible Runtime Environment for Student Burnout Prediction
 # Benchmark Environment: Python 3.11 / 3.12 / 3.13 (x86_64 / Windows / Linux)
 # Fixed Random Seed: random_state=42 across all pipelines
+#
+# COMPATIBILITY NOTE: Python 3.11 or 3.12 is strongly recommended.
+# Python 3.13+ may encounter dependency resolution errors with shap==0.45.0
+# and scikit-learn==1.4.2 due to binary wheel availability.
+# If running on Python 3.13+, consider: pip install shap scikit-learn --upgrade
+# to use the latest compatible versions (results may vary marginally).
 
 scikit-learn==1.4.2
 xgboost==2.0.3

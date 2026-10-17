@@ -85,8 +85,12 @@ for fold, (train_idx, val_idx) in enumerate(skf.split(X, y_true)):
     X_train_trans = fold_preprocessor.fit_transform(X_raw_train)
     X_val_trans = fold_preprocessor.transform(X_raw_val)
     
-    X_train_df = pd.DataFrame(X_train_trans, columns=all_feature_names)
-    X_val_df = pd.DataFrame(X_val_trans, columns=all_feature_names)
+    # Use fold-level feature names to guard against missing categories in small folds
+    fold_cat_names = list(fold_preprocessor.named_transformers_['cat'].get_feature_names_out(cat_cols))
+    fold_feature_names = num_cols + fold_cat_names
+    
+    X_train_df = pd.DataFrame(X_train_trans, columns=fold_feature_names)
+    X_val_df = pd.DataFrame(X_val_trans, columns=fold_feature_names)
     
     rf_fold = RandomForestClassifier(n_estimators=150, max_depth=8, random_state=42)
     rf_fold.fit(X_train_df, y_train)
@@ -100,8 +104,23 @@ for fold, (train_idx, val_idx) in enumerate(skf.split(X, y_true)):
         vals_fold = shap_vals_fold[:, :, 1]
     else:
         vals_fold = shap_vals_fold
-        
-    oof_shap_matrix[val_idx] = vals_fold
+    
+    # Map fold OOF shap values back to global feature space (pad missing columns with 0)
+    # NOTE: If a fold is missing a categorical level, the corresponding column is zero-padded.
+    # This is expected but will slightly understate the Spearman rank-correlation vs full-refit.
+    # A warning is printed below if any column is zero-padded in this fold.
+    fold_shap_full = np.zeros((len(val_idx), len(all_feature_names)))
+    zero_padded_cols = []
+    for fi, fname in enumerate(fold_feature_names):
+        if fname in all_feature_names:
+            gidx = all_feature_names.index(fname)
+            fold_shap_full[:, gidx] = vals_fold[:, fi]
+    for fname in all_feature_names:
+        if fname not in fold_feature_names:
+            zero_padded_cols.append(fname)
+    if zero_padded_cols:
+        print(f"  [WARN] Fold {fold}: {len(zero_padded_cols)} feature(s) zero-padded (absent in fold categories): {zero_padded_cols}")
+    oof_shap_matrix[val_idx] = fold_shap_full
 
 mean_abs_shap_oof = np.mean(np.abs(oof_shap_matrix), axis=0)
 

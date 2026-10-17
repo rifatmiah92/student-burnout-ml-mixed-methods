@@ -30,7 +30,7 @@ num_cols = [c for c in X.columns if c not in cat_cols]
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', StandardScaler(), num_cols),
-        ('cat', OneHotEncoder(handle_unknown='ignore', drop='first'), cat_cols)
+        ('cat', OneHotEncoder(handle_unknown='ignore', drop='first', sparse_output=False), cat_cols)
     ]
 )
 

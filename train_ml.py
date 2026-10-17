@@ -68,8 +68,10 @@ for name, clf in models.items():
         ('clf', clf)
     ])
     
-    y_pred = cross_val_predict(pipe, X, y_true, cv=cv, method='predict')
+    # Single pass: compute OOF probabilities, then derive binary predictions from default threshold
+    # This avoids fitting the model twice and ensures y_pred/y_proba are consistent
     y_proba = cross_val_predict(pipe, X, y_true, cv=cv, method='predict_proba')[:, 1]
+    y_pred = (y_proba >= 0.5).astype(int)
     elapsed = round(time.time() - start_t, 2)
     
     oof_preds[name] = y_pred
@@ -115,10 +117,6 @@ print("\n=======================================================================
 print("GENUINE SCIKIT-LEARN 10-FOLD CV RESULTS (ALL 10 MODELS + SOFT VOTING)")
 print("=====================================================================================")
 print(res_df.to_string(index=False))
-
-# Save results
-with open('results_ml_summary.txt', 'w', encoding='utf-8') as f:
-    f.write(res_df.to_string(index=False))
 
 best_model_name = res_df.iloc[0]['Model']
 best_preds = oof_preds[best_model_name]
@@ -216,3 +214,41 @@ for th in [0.50, 0.45, 0.42, 0.40, 0.38, 0.35, 0.30]:
 
 th_df = pd.DataFrame(threshold_results)
 print(th_df.to_string(index=False))
+
+
+# -----------------------------------------------------------------------------------
+# CALIBRATION ASSESSMENT (TRIPOD Item 22) — Brier Score + Calibration Curve
+# -----------------------------------------------------------------------------------
+from sklearn.calibration import calibration_curve
+from sklearn.metrics import brier_score_loss
+
+print("\n=====================================================================================")
+print("CALIBRATION ASSESSMENT (RANDOM FOREST OOF PROBABILITIES — TRIPOD Item 22)")
+print("=====================================================================================")
+
+brier = brier_score_loss(y_true, rf_probas)
+print(f"Brier Score (RF, default threshold): {brier:.4f}")
+print(f"  (Perfect=0.00, Uninformative=0.25, Lower=Better)")
+
+# Calibration curve: fraction of positives vs mean predicted probability
+fraction_pos, mean_pred = calibration_curve(y_true, rf_probas, n_bins=10, strategy='uniform')
+print("\nCalibration Curve (Uniform Bins, n=10):")
+print(f"  Mean Predicted Prob : {[round(x,3) for x in mean_pred.tolist()]}")
+print(f"  Fraction of Positives: {[round(x,3) for x in fraction_pos.tolist()]}")
+
+# Compute Expected Calibration Error (ECE)
+ece = np.mean(np.abs(fraction_pos - mean_pred))
+print(f"\nExpected Calibration Error (ECE): {ece:.4f}")
+
+# Save calibration results
+with open('results_calibration.txt', 'w', encoding='utf-8') as f:
+    f.write("=====================================================================================\n")
+    f.write("CALIBRATION ASSESSMENT — RANDOM FOREST (TRIPOD Item 22)\n")
+    f.write("=====================================================================================\n")
+    f.write(f"Brier Score: {brier:.4f} (Perfect=0.00, Uninformative baseline=0.25)\n")
+    f.write(f"Expected Calibration Error (ECE): {ece:.4f}\n\n")
+    f.write("Calibration Curve (Uniform 10 Bins):\n")
+    f.write(f"  Mean Predicted Probability : {[round(x,4) for x in mean_pred.tolist()]}\n")
+    f.write(f"  Observed Fraction Positives: {[round(x,4) for x in fraction_pos.tolist()]}\n")
+
+print("\nCalibration assessment saved to results_calibration.txt")

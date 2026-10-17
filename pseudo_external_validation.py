@@ -52,9 +52,10 @@ def evaluate_subgroup_split(train_df, test_df, split_name):
     ])
     
     # Internal 10-fold CV on training subgroup
+    # Single predict_proba call ensures CV accuracy and CV AUC come from the same fitted models
     cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
-    y_cv_pred = cross_val_predict(pipe, X_train, y_train, cv=cv, method='predict')
     y_cv_proba = cross_val_predict(pipe, X_train, y_train, cv=cv, method='predict_proba')[:, 1]
+    y_cv_pred = (y_cv_proba >= 0.5).astype(int)  # Derived from same probabilities for consistency
     
     cv_acc = round(accuracy_score(y_train, y_cv_pred) * 100, 2)
     cv_auc = round(roc_auc_score(y_train, y_cv_proba), 4)

@@ -4,4 +4,11 @@ catboost_info/
 .DS_Store
 Thumbs.db
 ~$*
-
+*.log
+*.tmp
+*_Extended_Archive.*
+build_condensed_manuscript.py
+build_perfect_manuscript_75_refs.py
+check_stats.py
+convert_md_to_docx.py
+process_references.py
